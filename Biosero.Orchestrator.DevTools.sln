@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33723.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1427A494-2D38-477D-9D7A-F23BF34C202B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Biosero.Orchestrator.DevTools", "src\Biosero.Orchestrator.DevTools\Biosero.Orchestrator.DevTools.csproj", "{7A55716C-A4B0-436C-B6B0-31F16DAAC2EC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C3131190-0F22-4135-8907-F8FA31325C98}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{D05A9CBF-CAE4-4622-AF34-FC99398A1454}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Acme", "Acme", "{1BBAEF34-8644-4E62-AA98-6DE226F14C6F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.Orchestrator.Scripting", "examples\Acme\Acme.Orchestrator.Scripting\Acme.Orchestrator.Scripting.csproj", "{8BA13882-CEC3-4725-A103-A1C2FBD75EC5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7A55716C-A4B0-436C-B6B0-31F16DAAC2EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A55716C-A4B0-436C-B6B0-31F16DAAC2EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A55716C-A4B0-436C-B6B0-31F16DAAC2EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A55716C-A4B0-436C-B6B0-31F16DAAC2EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BA13882-CEC3-4725-A103-A1C2FBD75EC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BA13882-CEC3-4725-A103-A1C2FBD75EC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BA13882-CEC3-4725-A103-A1C2FBD75EC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BA13882-CEC3-4725-A103-A1C2FBD75EC5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7A55716C-A4B0-436C-B6B0-31F16DAAC2EC} = {1427A494-2D38-477D-9D7A-F23BF34C202B}
+		{1BBAEF34-8644-4E62-AA98-6DE226F14C6F} = {D05A9CBF-CAE4-4622-AF34-FC99398A1454}
+		{8BA13882-CEC3-4725-A103-A1C2FBD75EC5} = {1BBAEF34-8644-4E62-AA98-6DE226F14C6F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2A78705F-AAC6-4C01-8359-506FD6E9CD13}
+	EndGlobalSection
+EndGlobal
