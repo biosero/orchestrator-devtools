@@ -1,6 +1,6 @@
 # Biosero Orchestrator DevTools
 
-Biosero Orchestrator DevTools is a suite of developer tools (packages, examples, etc.) to help you write Orchestrator Workflow scripts.  The driving motivation here is BYOIDE (Bring Your Own Integrated Development Environment).  All from inside Visual Studio or VS Code, you can code, debug, and test your Workflow scripts.  Then when you are ready, just copy them into the Biosero Designer application.  The DevTools NuGet package will provide you with mock classes that can be used to simulate running a script during an Orchestrator Workflow.
+Biosero Orchestrator DevTools is a suite of developer tools (packages, examples, etc.) to help you write Orchestrator Workflow scripts.  The driving motivation here is **BYOIDE** (Bring Your Own Integrated Development Environment).  All from inside Visual Studio or VS Code, you can code, debug, and test your Orchestrator Workflow scripts.  Then when you are ready, just copy them into the Biosero Designer application.  The DevTools NuGet package will provide you with mock classes that can be used to simulate running a script during an Orchestrator Workflow.
 
 ## Getting started
 
