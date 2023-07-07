@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-using Biosero.DataServices.Client;
+﻿using Biosero.DataServices.Client;
 
 namespace Biosero.Orchestrator.WorkflowService
 {

@@ -2,7 +2,7 @@
 using Biosero.Orchestrator.WorkflowService;
 using Westwind.Scripting;
 
-namespace Biosero.Orchestrator.DevTools
+namespace Biosero.Orchestrator.ScriptingTools
 {
     public class ScriptHelper
     {

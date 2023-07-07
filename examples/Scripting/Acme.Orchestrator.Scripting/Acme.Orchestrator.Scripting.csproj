@@ -20,7 +20,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\src\Biosero.Orchestrator.DevTools\Biosero.Orchestrator.DevTools.csproj" />
+	  <ProjectReference Include="..\..\..\src\Biosero.Orchestrator.ScriptingTools\Biosero.Orchestrator.ScriptingTools.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
