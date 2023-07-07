@@ -1,6 +1,6 @@
 # Biosero Orchestrator Dev Tools
 
-Biosero Orchestrator DevTools is a suite of developer tools (packages, examples, etc.) to help you implement and manage your environment.
+Biosero Orchestrator DevTools is a suite of developer tools (packages, examples, etc.) to help you implement and manage your Orchestrator environment.
 
 ## Scripting Tools
 
