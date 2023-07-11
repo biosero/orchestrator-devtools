@@ -1,5 +1,6 @@
 ﻿using Biosero.DataServices.Client;
 using Biosero.Orchestrator.WorkflowService;
+using Serilog;
 using Westwind.Scripting;
 
 namespace Biosero.Orchestrator.ScriptingTools
@@ -23,6 +24,7 @@ namespace Biosero.Orchestrator.ScriptingTools
             scriptExecution.AddDefaultReferencesAndNamespaces();
             scriptExecution.AddLoadedReferences();
             scriptExecution.AddAssembly(typeof(DataServicesClient));
+            scriptExecution.AddAssembly(typeof(Log));
 
             scriptExecution.CompileClass(script);
 
@@ -48,6 +50,7 @@ namespace Biosero.Orchestrator.ScriptingTools
             scriptExecution.AddDefaultReferencesAndNamespaces();
             scriptExecution.AddLoadedReferences();
             scriptExecution.AddAssembly(typeof(DataServicesClient));
+            scriptExecution.AddAssembly(typeof(Log));
 
             dynamic compiledScript = scriptExecution.CompileClass(script);
 
