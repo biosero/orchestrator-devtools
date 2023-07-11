@@ -1,4 +1,6 @@
-﻿namespace Biosero.DataServices.Client
+﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
+namespace Biosero.DataServices.Client
 {
     public abstract class DataServicesClient
     {
@@ -107,3 +109,5 @@
         public abstract Task UploadTransformationJobAsync(CancellationToken cancellationToken = default(CancellationToken));
     }
 }
+
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

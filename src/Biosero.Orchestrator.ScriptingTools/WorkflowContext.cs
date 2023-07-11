@@ -2,17 +2,31 @@
 
 namespace Biosero.Orchestrator.WorkflowService
 {
+    /// <summary>
+    /// The Workflow context that manages global variables.
+    /// </summary>
     public class WorkflowContext
     {
         private readonly Parameter[] _globalVariables;
 
+        /// <summary>
+        /// Constructs a Workflow Context.
+        /// </summary>
+        /// <param name="globalVariables">The global varables with their initial values.</param>
         public WorkflowContext(params Parameter[] globalVariables)
         {
             _globalVariables = globalVariables;
         }
 
+        /// <summary>
+        /// The Order Identifier for the currently running Workflow.
+        /// </summary>
         public string OrderIdentifier => "Order_00000";
 
+        /// <summary>
+        /// Gets a global variables value type by its variable name.
+        /// </summary>
+        /// <param name="name">The global variable name.</param>
         public ParameterValueType GetGlobalVariableValueType(string name)
         {
             return _globalVariables
@@ -21,6 +35,12 @@ namespace Biosero.Orchestrator.WorkflowService
                 .Single();
         }
 
+        /// <summary>
+        /// Gets a global variable value by variable name.
+        /// </summary>
+        /// <typeparam name="T">The global variable value type.</typeparam>
+        /// <param name="name">The global variable name.</param>
+        /// <exception cref="InvalidOperationException"></exception>
         public T GetGlobalVariableValue<T>(string name)
         {
             var variable = _globalVariables.SingleOrDefault(x => x.Name == name);
@@ -45,6 +65,12 @@ namespace Biosero.Orchestrator.WorkflowService
             }
         }
 
+        /// <summary>
+        /// Tries to get a global variable value by variable name.
+        /// </summary>
+        /// <typeparam name="T">The global variable value type.</typeparam>
+        /// <param name="name">The global variable name.</param>
+        /// <param name="value">The global variable value.</param>
         public bool TryGetGlobalVariableValue<T>(string name, out T value)
         {
             var parameter = _globalVariables.SingleOrDefault(x => x.Name == name);
@@ -60,6 +86,14 @@ namespace Biosero.Orchestrator.WorkflowService
             return true;
         }
 
+        /// <summary>
+        /// Updates a global variable value by variable name.
+        /// </summary>
+        /// <typeparam name="T">The global variable value type.</typeparam>
+        /// <param name="name">The global variable name.</param>
+        /// <param name="value">The global variable value.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <exception cref="InvalidOperationException"></exception>
         public Task UpdateGlobalVariableAsync<T>(string name, T value, CancellationToken cancellationToken = default)
         {
             _ = value ?? throw new ArgumentNullException(nameof(value));
@@ -69,6 +103,14 @@ namespace Biosero.Orchestrator.WorkflowService
             return UpdateGlobalVariableAsync(name, valueType, value.ToString(), cancellationToken);
         }
 
+        /// <summary>
+        /// Updates a global variable value by variable name.
+        /// </summary>
+        /// <param name="name">The global variable name.</param>
+        /// <param name="valueType">The global variable value type.</param>
+        /// <param name="value">The global variable value.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <exception cref="InvalidOperationException"></exception>
         public Task UpdateGlobalVariableAsync(string name, ParameterValueType valueType, string value, CancellationToken cancellationToken = default)
         {
             var variable = _globalVariables.SingleOrDefault(x => x.Name == name);

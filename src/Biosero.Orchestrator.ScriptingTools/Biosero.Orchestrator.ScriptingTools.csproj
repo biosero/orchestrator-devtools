@@ -8,7 +8,7 @@
 		<Copyright>Copyright © 2023 Biosero Inc</Copyright>
 		<PackageProjectUrl>https://github.com/biosero/orchestrator-devtools</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/biosero/orchestrator-devtools</RepositoryUrl>
-		<PackageIconUrl>https://bioserodev.blob.core.windows.net/images/soft_green_biosero_logo.png</PackageIconUrl>
+		<PackageIcon>icon.png</PackageIcon>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>disable</Nullable>
@@ -17,6 +17,10 @@
 	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="Westwind.Scripting" Version="1.2.7" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="icon.png" Pack="true" PackagePath="" />
 	</ItemGroup>
 
 </Project>
