@@ -1,0 +1,11 @@
+mode: ContinuousDeployment
+assembly-file-versioning-format: '{Major}.{Minor}.{Patch}.{WeightedPreReleaseNumber ?? 0}'
+branches:
+  main:
+    increment: Minor
+    source-branches: []
+    tracks-release-branches: true
+    pre-release-weight: 0
+  release:
+    increment: Patch
+    tag: rc

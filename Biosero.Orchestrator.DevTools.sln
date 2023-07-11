@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1427A494-2D3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C3131190-0F22-4135-8907-F8FA31325C98}"
 	ProjectSection(SolutionItems) = preProject
+		GitVersion.yml = GitVersion.yml
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -17,6 +18,14 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Biosero.Orchestrator.ScriptingTools", "src\Biosero.Orchestrator.ScriptingTools\Biosero.Orchestrator.ScriptingTools.csproj", "{34CC55B3-5B92-4AA6-B4C2-C14230C713A1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.Orchestrator.Scripting", "examples\Scripting\Acme.Orchestrator.Scripting\Acme.Orchestrator.Scripting.csproj", "{10015683-58F6-44BB-A423-F2FB4587F2E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{19F8EB6F-98B2-433B-9244-34DB57A31420}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{E17EB1F8-437E-4365-9E30-F2ED0868E6F8}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\codeql.yml = .github\workflows\codeql.yml
+		.github\workflows\package.yml = .github\workflows\package.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +49,7 @@ Global
 		{C8BD0968-2694-45DA-8B96-65E2E028D140} = {D05A9CBF-CAE4-4622-AF34-FC99398A1454}
 		{34CC55B3-5B92-4AA6-B4C2-C14230C713A1} = {1427A494-2D38-477D-9D7A-F23BF34C202B}
 		{10015683-58F6-44BB-A423-F2FB4587F2E1} = {C8BD0968-2694-45DA-8B96-65E2E028D140}
+		{E17EB1F8-437E-4365-9E30-F2ED0868E6F8} = {19F8EB6F-98B2-433B-9244-34DB57A31420}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2A78705F-AAC6-4C01-8359-506FD6E9CD13}
