@@ -12,7 +12,7 @@ namespace Biosero.Orchestrator.ScriptingTools
         /// <summary>
         /// Compiles C# script text.
         /// </summary>
-        /// <param name="script">The C# script text</param>
+        /// <param name="script">The C# script text.</param>
         public static void Compile(string script)
         {
             var scriptExecution = new CSharpScriptExecution
