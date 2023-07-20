@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 namespace Acme.Orchestrator.Scripting.Tests
 {
     [TestClass]
-    public class Script3_DataServicesGetOrder_Tests
+    public class Script3_DataServicesClient_Tests
     {
         [TestMethod]
         public async Task Execute_Directly()
         {
-            var script = new Script3_DataServicesGetOrder();
+            var script = new Script3_DataServicesClient();
             var mockClient = new Mock<DataServicesClient>();
 
             mockClient
@@ -31,7 +31,7 @@ namespace Acme.Orchestrator.Scripting.Tests
         [TestMethod]
         public void Compile_As_Script()
         {
-            var scriptText = File.ReadAllText($"{nameof(Script3_DataServicesGetOrder)}.cs");
+            var scriptText = File.ReadAllText($"{nameof(Script3_DataServicesClient)}.cs");
 
             ScriptHelper.Compile(scriptText);
         }
@@ -39,7 +39,7 @@ namespace Acme.Orchestrator.Scripting.Tests
         [TestMethod]
         public async Task Execute_As_Script()
         {
-            var scriptText = File.ReadAllText($"{nameof(Script3_DataServicesGetOrder)}.cs");
+            var scriptText = File.ReadAllText($"{nameof(Script3_DataServicesClient)}.cs");
             var mockClient = new Mock<DataServicesClient>();
 
             mockClient

@@ -1,6 +1,5 @@
 ﻿using Biosero.DataServices.Client;
 using Biosero.Orchestrator.WorkflowService;
-using Serilog;
 using Westwind.Scripting;
 
 namespace Biosero.Orchestrator.ScriptingTools
@@ -23,8 +22,10 @@ namespace Biosero.Orchestrator.ScriptingTools
 
             scriptExecution.AddDefaultReferencesAndNamespaces();
             scriptExecution.AddLoadedReferences();
-            scriptExecution.AddAssembly(typeof(DataServicesClient));
-            scriptExecution.AddAssembly(typeof(Log));
+            scriptExecution.AddAssembly(typeof(System.Net.Http.Json.HttpClientJsonExtensions));
+            scriptExecution.AddAssembly(typeof(System.Text.Json.JsonSerializer));
+            scriptExecution.AddAssembly(typeof(Newtonsoft.Json.JsonSerializer));
+            scriptExecution.AddAssembly(typeof(Serilog.Log));
 
             scriptExecution.CompileClass(script);
 
@@ -49,8 +50,10 @@ namespace Biosero.Orchestrator.ScriptingTools
 
             scriptExecution.AddDefaultReferencesAndNamespaces();
             scriptExecution.AddLoadedReferences();
-            scriptExecution.AddAssembly(typeof(DataServicesClient));
-            scriptExecution.AddAssembly(typeof(Log));
+            scriptExecution.AddAssembly(typeof(System.Net.Http.Json.HttpClientJsonExtensions));
+            scriptExecution.AddAssembly(typeof(System.Text.Json.JsonSerializer));
+            scriptExecution.AddAssembly(typeof(Newtonsoft.Json.JsonSerializer));
+            scriptExecution.AddAssembly(typeof(Serilog.Log));
 
             dynamic compiledScript = scriptExecution.CompileClass(script);
 
