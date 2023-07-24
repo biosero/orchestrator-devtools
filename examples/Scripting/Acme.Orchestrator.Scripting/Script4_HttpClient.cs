@@ -14,23 +14,23 @@ namespace Acme.Orchestrator.Scripting
     {
         public async Task RunAsync(DataServicesClient client, WorkflowContext context, CancellationToken cancellationToken)
         {
-            using var httpClient = new HttpClient { BaseAddress = new Uri("http://worldtimeapi.org") };
+            using var httpClient = new HttpClient { BaseAddress = new Uri("https://timeapi.io") };
 
-            var response = await httpClient.GetFromJsonAsync<Reponse>("/api/ip");
+            var response = await httpClient.GetFromJsonAsync<Reponse>("/api/Time/current/zone?timeZone=America/Los_Angeles");
 
             await context.UpdateGlobalVariableAsync("Time", response?.DateTime.ToString("G"));
         }
 
         public class Reponse
         {
-            [JsonPropertyName("datetime")]
-            public DateTimeOffset DateTime { get; set; }
+            [JsonPropertyName("dateTime")]
+            public DateTime DateTime { get; set; }
 
-            [JsonPropertyName("day_of_week")]
-            public DayOfWeek DayOfWeek { get; set; }
+            [JsonPropertyName("dayOfWeek")]
+            public string? DayOfWeek { get; set; }
 
-            [JsonPropertyName("timezone")]
-            public string? Timezone { get; set; }
+            [JsonPropertyName("timeZone")]
+            public string? TimeZone { get; set; }
         }
     }
 }
