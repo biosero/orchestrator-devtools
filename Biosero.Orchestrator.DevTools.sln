@@ -20,6 +20,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.Orchestrator.Scripting", "examples\Scripting\Acme.Orchestrator.Scripting\Acme.Orchestrator.Scripting.csproj", "{10015683-58F6-44BB-A423-F2FB4587F2E1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{19F8EB6F-98B2-433B-9244-34DB57A31420}"
+	ProjectSection(SolutionItems) = preProject
+		.github\CODEOWNERS = .github\CODEOWNERS
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{E17EB1F8-437E-4365-9E30-F2ED0868E6F8}"
 	ProjectSection(SolutionItems) = preProject
