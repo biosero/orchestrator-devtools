@@ -8,26 +8,7 @@ The Scripting Tools package is designed to improve the developer experience when
 
 ### Getting started
 
-Biosero Orchestrator Scripting Tools is installed via NuGet from Biosero's private GitHub packages feed.  You will need to add this feed as a package source.  Full documentation on how to authenticate to a GitHub feed can be found [here](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-nuget-registry#authenticating-with-a-personal-access-token).  The easiest way to do this locally on Windows is to find the _C:\Users\YOUR_WINDOWS_USERNAME\AppData\Roaming\NuGet\Nuget.Config_ file, and add the source and credentials there.
-
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<configuration>
-    <packageSources>
-        <!-- other sources here like nuget.org -->
-
-        <add key="github-biosero" value="https://nuget.pkg.github.com/biosero/index.json" />
-    </packageSources>
-    <packageSourceCredentials>
-        <github-biosero>
-            <add key="Username" value="YOUR_GITHUB_USERNAME" />
-            <add key="ClearTextPassword" value="YOUR_GITHUB_PERSONAL_ACCESS_TOKEN" />
-        </github-biosero>
-    </packageSourceCredentials>
-</configuration>
-```
-
-Once the Biosero GitHub package source is successfully installed, you should be able to add the Scripting Tools package to any .NET project.
+Biosero Orchestrator Scripting Tools is installed via NuGet from the nuget.org package feed.
 
 ```
 dotnet add package Biosero.Orchestrator.ScriptingTools
