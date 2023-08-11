@@ -1,0 +1,62 @@
+name: Publish to NuGet.org
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  BUILD_CONFIGURATION: Release
+
+jobs:
+  build:
+    name: Build and publish
+    runs-on: windows-latest
+    outputs:
+      version: ${{ steps.gitversion.outputs.fullSemVer }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Setup NuGet authentication
+      uses: actions/setup-dotnet@v2
+      with:
+        source-url: https://nuget.pkg.github.com/biosero/index.json
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup GitVersion
+      uses: gittools/actions/gitversion/setup@v0.9.15
+      with:
+        versionSpec: '5.x'
+
+    - name: GitVersion
+      id: gitversion
+      uses: gittools/actions/gitversion/execute@v0.9.15
+      with:
+        useConfigFile: true
+        additionalArguments: -updateprojectfiles
+
+    - name: Build
+      run: dotnet build Biosero.Orchestrator.DevTools.sln --configuration ${{ env.BUILD_CONFIGURATION }}
+
+    - name: Test
+      run: dotnet test Biosero.Orchestrator.DevTools.sln --no-build --configuration ${{ env.BUILD_CONFIGURATION }}
+
+    - name: Package
+      run: dotnet pack src/Biosero.Orchestrator.ScriptingTools/Biosero.Orchestrator.ScriptingTools.csproj --no-build --configuration ${{ env.BUILD_CONFIGURATION }} -p:PackageVersion=${{ steps.gitversion.outputs.fullSemVer }}
+
+    - name: Publish
+      run: dotnet nuget push src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg --api-key ${{ secrets.NUGET_ORG_API_KEY }} --source https://api.nuget.org/v3/index.json
+
+    - name: Archive
+      uses: actions/upload-artifact@v3
+      with:
+        name: Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg
+        path: src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg
+        retention-days: 5
