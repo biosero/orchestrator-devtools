@@ -60,7 +60,7 @@ namespace Biosero.Orchestrator.ScriptingTools
             scriptExecution.AddAssembly(typeof(Serilog.Log));
 
             dynamic compiledScript = scriptExecution.CompileClass(script);
-            
+
             if (scriptExecution.Error)
             {
                 throw scriptExecution.LastException;
