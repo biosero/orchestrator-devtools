@@ -7,7 +7,7 @@ namespace Biosero.Orchestrator.WorkflowService
     /// </summary>
     public class WorkflowContext
     {
-        private readonly Parameter[] _globalVariables;
+        private readonly List<Parameter> _globalVariables;
 
         /// <summary>
         /// Constructs a Workflow Context.
@@ -15,7 +15,7 @@ namespace Biosero.Orchestrator.WorkflowService
         /// <param name="globalVariables">The global varables with their initial values.</param>
         public WorkflowContext(params Parameter[] globalVariables)
         {
-            _globalVariables = globalVariables;
+            _globalVariables = globalVariables.ToList();
         }
 
         /// <summary>
@@ -87,6 +87,59 @@ namespace Biosero.Orchestrator.WorkflowService
         }
 
         /// <summary>
+        /// Adds or updates a global variable value by variable name.
+        /// </summary>
+        /// <typeparam name="T">The global variable value type.</typeparam>
+        /// <param name="name">The global variable name.</param>
+        /// <param name="value">The global variable value.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <exception cref="InvalidOperationException"></exception>
+        public Task AddOrUpdateGlobalVariableAsync<T>(string name, T value, CancellationToken cancellationToken = default)
+        {
+            _ = value ?? throw new ArgumentNullException(nameof(value));
+
+            var valueType = GetParameterValueType(typeof(T));
+
+            return AddOrUpdateGlobalVariableAsync(name, valueType, value.ToString(), cancellationToken);
+        }
+
+        /// <summary>
+        /// Adds or updates a global variable value by variable name.
+        /// </summary>
+        /// <param name="name">The global variable name.</param>
+        /// <param name="valueType">The global variable value type.</param>
+        /// <param name="value">The global variable value.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <exception cref="InvalidOperationException"></exception>
+        public Task AddOrUpdateGlobalVariableAsync(string name, ParameterValueType valueType, string value, CancellationToken cancellationToken = default)
+        {
+            var variable = _globalVariables.SingleOrDefault(x => x.Name == name);
+
+            if (variable == null)
+            {
+                variable = new Parameter
+                {
+                    Name = name,
+                    ValueType = valueType,
+                    Value = value,
+                };
+
+                _globalVariables.Add(variable);
+            }
+            else
+            {
+                if (valueType != variable.ValueType)
+                {
+                    throw new InvalidOperationException($"Global Variable Type '{variable.ValueType}' does not match value type '{valueType}'.");
+                }
+
+                variable.Value = value;
+            }
+
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
         /// Updates a global variable value by variable name.
         /// </summary>
         /// <typeparam name="T">The global variable value type.</typeparam>
@@ -126,11 +179,6 @@ namespace Biosero.Orchestrator.WorkflowService
             }
 
             variable.Value = value;
-
-            var cmd = new UpdateWorkflowGlobalVariableValueCommand
-            {
-                Value = variable.Value,
-            };
 
             return Task.CompletedTask;
         }
