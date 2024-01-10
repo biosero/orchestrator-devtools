@@ -5,6 +5,7 @@ namespace Biosero.DataServices.Client
     public abstract class DataServicesClient
     {
         public abstract Task<EventIdOnly> AddEventAsync(AddEventCommand body, CancellationToken cancellationToken = default);
+        public abstract Task<WorkflowApprovalIdOnly> AddWorkflowApprovalAsync(int workflowStackElementId, CancellationToken cancellationToken = default);
         public abstract Task AddWorkflowErrorAsync(int workflowStackElementId, AddWorkflowErrorCommand body, CancellationToken cancellationToken = default);
         public abstract Task AddWorkflowGlobalVariableAsync(int workflowProcessId, AddWorkflowGlobalVariableCommand body, CancellationToken cancellationToken = default);
         public abstract Task AddWorkflowLocalVariableAsync(int workflowStackElementId, AddWorkflowLocalVariableCommand body, CancellationToken cancellationToken = default);
@@ -31,7 +32,6 @@ namespace Biosero.DataServices.Client
         public abstract Task<ICollection<MaterialInContainerSearchResult>> FindMaterialAsync(string containerId = null, string name = null, string structure = null, string casNumber = null, MaterialState? materialState = null, int? limit = null, int? offset = null, CancellationToken cancellationToken = default);
         public abstract Task<ICollection<SampleInContainerSearchResult>> FindSampleAsync(string containerId = null, string name = null, string collectedBy = null, string sampleType = null, DateTimeOffset? collectedBefore = null, DateTimeOffset? collectedAfter = null, MaterialState? materialState = null, int? limit = null, int? offset = null, CancellationToken cancellationToken = default);
         public abstract Task<ICollection<WorkflowThread>> GetAliveWorkflowThreadsAsync(IEnumerable<WorkflowThreadStatusCodes> statusCode = null, int? limit = null, int? offset = null, CancellationToken cancellationToken = default);
-        public abstract Task<AuthenticationTypeOnly> GetAuthenticationTypeAsync(CancellationToken cancellationToken = default);
         public abstract Task<AzureActiveDirectoryConfiguration> GetAzureActiveDirectoryConfigurationAsync(CancellationToken cancellationToken = default);
         public abstract Task<Volume> GetContainerNetVolumeAsync(string containerId, CancellationToken cancellationToken = default);
         public abstract Task<Weight> GetContainerNetWeightFromTransfersAsync(string containerId, CancellationToken cancellationToken = default);
@@ -54,10 +54,12 @@ namespace Biosero.DataServices.Client
         public abstract Task<LicenseState> GetLicenseStatusAsync(CancellationToken cancellationToken = default);
         public abstract Task<MaintenanceModeSwitch> GetMaintenanceModeSwitchAsync(CancellationToken cancellationToken = default);
         public abstract Task<MobileRobotTransport> GetMobileRobotTransportAsync(string mobileRobotIdentifier, CancellationToken cancellationToken = default);
+        public abstract Task<MobileRobotTransport> GetMobileRobotTransportOrNullAsync(string mobileRobotIdentifier, CancellationToken cancellationToken = default);
         public abstract Task<ICollection<MobileRobotTransport>> GetMobileRobotTransportsAsync(IEnumerable<MobileRobotTransportStatus> status = null, CancellationToken cancellationToken = default);
         public abstract Task<ICollection<MobileRobotTransport>> GetNextMobileRobotTransportAsync(CancellationToken cancellationToken = default);
-        public abstract Task<ICollection<TransportationRequest>> GetNextTransportationRequestAsync(GetNextTransportationRequestCommand body, CancellationToken cancellationToken = default);
-        public abstract Task<TransportationRequest> GetNextTransportationRequestOrNullAsync(GetNextTransportationRequestCommand body, CancellationToken cancellationToken = default);
+        public abstract Task<MobileRobotTransport> GetNextMobileRobotTransportOrNullAsync(CancellationToken cancellationToken = default);
+        public abstract Task<ICollection<TransportationRequest>> GetNextTransportationRequestAsync(CancellationToken cancellationToken = default);
+        public abstract Task<TransportationRequest> GetNextTransportationRequestOrNullAsync(CancellationToken cancellationToken = default);
         public abstract Task<ICollection<WorkflowThread>> GetNextWorkflowThreadAsync(CancellationToken cancellationToken = default);
         public abstract Task<WorkflowThread> GetNextWorkflowThreadOrNullAsync(CancellationToken cancellationToken = default);
         public abstract Task<Order> GetOrderAsync(string orderId, CancellationToken cancellationToken = default);
@@ -73,6 +75,8 @@ namespace Biosero.DataServices.Client
         public abstract Task<TransportationRequestPage> GetTransportationRequestPageAsync(int? limit = null, int? offset = null, string sortColumn = null, PageSortType? sortType = null, IEnumerable<PageFilter> filter = null, CancellationToken cancellationToken = default);
         public abstract Task<ICollection<TransportationRequest>> GetTransportationRequestsAsync(string requestGroupIdentifier = null, IEnumerable<TransportationRequestStatus> status = null, string vehicleIdentifier = null, bool? isAssigned = null, bool? isActive = null, bool? isProcessing = null, int? limit = null, int? offset = null, CancellationToken cancellationToken = default);
         public abstract Task<ICollection<Order>> GetUnassignedOrdersAsync(string restrictToModuleIds = null, IEnumerable<string> templateName = null, int? limit = null, int? offset = null, CancellationToken cancellationToken = default);
+        public abstract Task<UserActionPage> GetUserActionPageAsync(string orderId = null, int? limit = null, int? offset = null, string sortColumn = null, PageSortType? sortType = null, IEnumerable<PageFilter> filter = null, CancellationToken cancellationToken = default);
+        public abstract Task<ICollection<UserAction>> GetUserActionsAsync(string orderId = null, DateTimeOffset? createdOnOrBefore = null, int? limit = null, int? offset = null, CancellationToken cancellationToken = default);
         public abstract Task GetVersionAsync(CancellationToken cancellationToken = default);
         public abstract Task<Webhook> GetWebhookAsync(int webhookId, CancellationToken cancellationToken = default);
         public abstract Task<ICollection<Webhook>> GetWebhooksAsync(int? limit = null, int? offset = null, CancellationToken cancellationToken = default);
@@ -81,6 +85,8 @@ namespace Biosero.DataServices.Client
         public abstract Task<ICollection<WorkcellOperationEvent>> GetWorkcellOperationEventsAsync(string workcellId, DateTimeOffset? start = null, DateTimeOffset? end = null, int? offset = null, int? limit = null, CancellationToken cancellationToken = default);
         public abstract Task<ICollection<Workcell>> GetWorkcellsAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default);
         public abstract Task<ICollection<ModuleStatusUpdateEvent>> GetWorkcellStatusesAsync(CancellationToken cancellationToken = default);
+        public abstract Task<WorkflowApproval> GetWorkflowApprovalAsync(int workflowApprovalId, CancellationToken cancellationToken = default);
+        public abstract Task<WorkflowApprovalViewPage> GetWorkflowApprovalPageAsync(int? limit = null, int? offset = null, string sortColumn = null, PageSortType? sortType = null, IEnumerable<PageFilter> filter = null, CancellationToken cancellationToken = default);
         public abstract Task<ICollection<WorkflowNodeExecutionState>> GetWorkflowExecutionStateAsync(string orderId, CancellationToken cancellationToken = default);
         public abstract Task<WorkflowProcessPausedPage> GetWorkflowPausedPageAsync(int? limit = null, int? offset = null, CancellationToken cancellationToken = default);
         public abstract Task<WorkflowProcess> GetWorkflowProcessAsync(int workflowProcessId, CancellationToken cancellationToken = default);
@@ -91,8 +97,9 @@ namespace Biosero.DataServices.Client
         public abstract Task<WorkflowThreadHealthPage> GetWorkflowThreadHealthPageAsync(int? limit = null, int? offset = null, CancellationToken cancellationToken = default);
         public abstract Task<ICollection<WorkflowThread>> GetWorkflowThreadsAsync(int workflowProcessId, CancellationToken cancellationToken = default);
         public abstract Task<ICollection<MobileRobotTransport>> PeekNextMobileRobotTransportAsync(CancellationToken cancellationToken = default);
-        public abstract Task<ICollection<TransportationRequest>> PeekNextTransportationRequestAsync(string assignedToIdentifier = null, CancellationToken cancellationToken = default);
-        public abstract Task<TransportationRequest> PeekNextTransportationRequestOrNullAsync(string assignedToIdentifier, CancellationToken cancellationToken = default);
+        public abstract Task<MobileRobotTransport> PeekNextMobileRobotTransportOrNullAsync(CancellationToken cancellationToken = default);
+        public abstract Task<ICollection<TransportationRequest>> PeekNextTransportationRequestAsync(CancellationToken cancellationToken = default);
+        public abstract Task<TransportationRequest> PeekNextTransportationRequestOrNullAsync(CancellationToken cancellationToken = default);
         public abstract Task<ICollection<WorkflowStackElement>> PeekWorkflowStackAsync(int workflowThreadId, CancellationToken cancellationToken = default);
         public abstract Task<WorkflowStackElement> PeekWorkflowStackOrNullAsync(int workflowThreadId, CancellationToken cancellationToken = default);
         public abstract Task PersistOrderStateAsync(string orderId, CancellationToken cancellationToken = default);
@@ -120,6 +127,7 @@ namespace Biosero.DataServices.Client
         public abstract Task UpdateTransportationRequestStatusAsync(string requestIdentifier, UpdateTransportationRequestStatusCommand body, CancellationToken cancellationToken = default);
         public abstract Task UpdateTransportationRequestVehicleIdentifierAsync(string requestIdentifier, UpdateTransportationRequestVehicleIdentifierCommand body, CancellationToken cancellationToken = default);
         public abstract Task UpdateWebhookAsync(int webhookId, UpdateWebhookCommand body = null, CancellationToken cancellationToken = default);
+        public abstract Task UpdateWorkflowApprovalAsync(int workflowApprovalId, UpdateWorkflowApprovalCommand body, CancellationToken cancellationToken = default);
         public abstract Task UpdateWorkflowGlobalVariableValueAsync(int workflowProcessId, string name, UpdateWorkflowGlobalVariableValueCommand body, CancellationToken cancellationToken = default);
         public abstract Task UpdateWorkflowLocalVariableValueAsync(int workflowStackElementId, string name, UpdateWorkflowLocalVariableValueCommand body, CancellationToken cancellationToken = default);
         public abstract Task UpdateWorkflowProcessAsync(int workflowProcessId, UpdateWorkflowProcessCommand body, CancellationToken cancellationToken = default);

@@ -85,7 +85,6 @@ namespace Biosero.DataServices.Client
         public string Value { get; set; }
 
         [Newtonsoft.Json.JsonProperty("valueType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ParameterValueType ValueType { get; set; }
 
         [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -112,7 +111,6 @@ namespace Biosero.DataServices.Client
         public string Value { get; set; }
 
         [Newtonsoft.Json.JsonProperty("valueType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ParameterValueType ValueType { get; set; }
 
         [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -130,37 +128,19 @@ namespace Biosero.DataServices.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class AuthenticationTypeOnly
-    {
-        [Newtonsoft.Json.JsonProperty("authenticationType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public AuthenticationTypes AuthenticationType { get; set; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public enum AuthenticationTypes
-    {
-
-        [System.Runtime.Serialization.EnumMember(Value = @"None")]
-        None = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"AzureActiveDirectory")]
-        AzureActiveDirectory = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class AzureActiveDirectoryConfiguration
     {
+        [Newtonsoft.Json.JsonProperty("isOn", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsOn { get; set; }
+
         [Newtonsoft.Json.JsonProperty("instance", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Instance { get; set; }
 
         [Newtonsoft.Json.JsonProperty("tenantId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string TenantId { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("dataServicesClientId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DataServicesClientId { get; set; }
+        [Newtonsoft.Json.JsonProperty("clientId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string ClientId { get; set; }
 
         [Newtonsoft.Json.JsonProperty("conductorClientId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ConductorClientId { get; set; }
@@ -171,8 +151,8 @@ namespace Biosero.DataServices.Client
         [Newtonsoft.Json.JsonProperty("insightsClientId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string InsightsClientId { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("scopes", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Scopes { get; set; }
+        [Newtonsoft.Json.JsonProperty("scope", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Scope { get; set; }
 
     }
 
@@ -183,7 +163,6 @@ namespace Biosero.DataServices.Client
         public double Value { get; set; }
 
         [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ConcentrationUnit Unit { get; set; }
 
     }
@@ -203,6 +182,9 @@ namespace Biosero.DataServices.Client
 
         [System.Runtime.Serialization.EnumMember(Value = @"mgmL")]
         MgmL = 3,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Unknown")]
+        Unknown = 4,
 
     }
 
@@ -239,14 +221,7 @@ namespace Biosero.DataServices.Client
         /// Gets or sets the module restriction strategy. This defines how the RestrictToModuleIds is applied to limit the modules the order can be executed on.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("moduleRestrictionStrategy", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ModuleRestrictionStrategy ModuleRestrictionStrategy { get; set; }
-
-        /// <summary>
-        /// Gets or sets the identifier of the creator of the order, usually a User's identifier.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("createdBy", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string CreatedBy { get; set; }
 
         /// <summary>
         /// Gets or sets additional (optional) notes about the order.
@@ -288,8 +263,13 @@ namespace Biosero.DataServices.Client
         /// Gets or sets the scheduling strategy.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("schedulingStrategy", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public SchedulingStrategy SchedulingStrategy { get; set; }
+
+        /// <summary>
+        /// Gets or sets the order priority.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("priority", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public OrderPriority Priority { get; set; }
 
     }
 
@@ -319,17 +299,8 @@ namespace Biosero.DataServices.Client
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class CreateTransportationRequestGroupCommand
     {
-        [Newtonsoft.Json.JsonProperty("sourceStationIdentifier", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string SourceStationIdentifier { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("destinationStationIdentifier", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DestinationStationIdentifier { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("itemIdentifiers", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<string> ItemIdentifiers { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("itemMetadata", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string ItemMetadata { get; set; }
+        [Newtonsoft.Json.JsonProperty("items", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<TransportationRequestItem> Items { get; set; }
 
         [Newtonsoft.Json.JsonProperty("orderIdentifier", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string OrderIdentifier { get; set; }
@@ -381,141 +352,74 @@ namespace Biosero.DataServices.Client
 
     }
 
-    /// <summary>
-    /// Class EventMessage.
-    /// <br/>Implements the Biosero.DataServices.Domain.Event.EventContext.
-    /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class EventMessage
     {
-        /// <summary>
-        /// Gets or sets the topic.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("topic", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Topic { get; set; }
 
-        /// <summary>
-        /// Gets or sets the event identifier.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("eventId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string EventId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the start time of the event.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("start", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset Start { get; set; }
 
-        /// <summary>
-        /// Gets or sets the end time of the event.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("end", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset End { get; set; }
 
-        /// <summary>
-        /// Gets or sets the organization identifier.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("organizationId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string OrganizationId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the group identifier.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("groupId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string GroupId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the owner identifier.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("ownerId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string OwnerId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the access policy for this data.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("accessPolicy", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string AccessPolicy { get; set; }
 
-        /// <summary>
-        /// Gets or sets the sharing policy for this data.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("sharingPolicy", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string SharingPolicy { get; set; }
 
-        /// <summary>
-        /// Gets or sets the retention policy for this data.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("retentionPolicy", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string RetentionPolicy { get; set; }
 
-        /// <summary>
-        /// Gets or sets the association identifier links this data to a specific order, job, or task identifier.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("associationId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string AssociationId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the activity identifier identifies the type of activity this event relates to.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("activityId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ActivityId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the actor identifier identifies the actor responsible for the event.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("actorId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ActorId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the subjects.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("subjects", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<string> Subjects { get; set; }
 
-        /// <summary>
-        /// Gets or sets the tags array can be used to tag the event with any associated data.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("tags", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<string> Tags { get; set; }
 
-        /// <summary>
-        /// Gets or sets the orchestrator identifier.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("orchestratorId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string OrchestratorId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the operator identifier.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("operatorId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string OperatorId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the module identifier.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("moduleId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ModuleId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the source trace identifiers.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("sourceTraceIds", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<string> SourceTraceIds { get; set; }
 
-        /// <summary>
-        /// Gets or sets the encryption provider.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("encryptionProvider", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string EncryptionProvider { get; set; }
 
-        /// <summary>
-        /// Gets or sets the data.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("data", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Data { get; set; }
-
         [Newtonsoft.Json.JsonProperty("createdDateUtc", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset CreatedDateUtc { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("data", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Data { get; set; }
 
     }
 
@@ -543,13 +447,8 @@ namespace Biosero.DataServices.Client
         [System.Runtime.Serialization.EnumMember(Value = @"License")]
         License = 2,
 
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class GetNextTransportationRequestCommand
-    {
-        [Newtonsoft.Json.JsonProperty("assignedToIdentifier", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string AssignedToIdentifier { get; set; }
+        [System.Runtime.Serialization.EnumMember(Value = @"Unknown")]
+        Unknown = 3,
 
     }
 
@@ -561,51 +460,27 @@ namespace Biosero.DataServices.Client
 
     }
 
-    /// <summary>
-    /// Class Identity.
-    /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class Identity
     {
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("identifier", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Identifier { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets the type identifier.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("typeIdentifier", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string TypeIdentifier { get; set; }
 
-        /// <summary>
-        /// Gets or sets the description.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Description { get; set; }
 
-        /// <summary>
-        /// Gets or sets the properties.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("properties", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<Parameter> Properties { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether [inherit properties].
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("inheritProperties", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool InheritProperties { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether this is an instance.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("isInstance", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsInstance { get; set; }
 
@@ -614,45 +489,24 @@ namespace Biosero.DataServices.Client
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class Instrument
     {
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("identifier", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Identifier { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets the type identifier.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("typeIdentifier", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string TypeIdentifier { get; set; }
 
-        /// <summary>
-        /// Gets or sets the description.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Description { get; set; }
 
-        /// <summary>
-        /// Gets or sets the properties.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("properties", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<Parameter> Properties { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether [inherit properties].
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("inheritProperties", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool InheritProperties { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether this is an instance.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("isInstance", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsInstance { get; set; }
 
@@ -775,27 +629,15 @@ namespace Biosero.DataServices.Client
 
     }
 
-    /// <summary>
-    /// Class Location.
-    /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class Location
     {
-        /// <summary>
-        /// Gets or sets the parent identifier.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("parentIdentifier", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ParentIdentifier { get; set; }
 
-        /// <summary>
-        /// Gets or sets the item identifier.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("itemIdentifier", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ItemIdentifier { get; set; }
 
-        /// <summary>
-        /// Gets or sets the coordinates.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("coordinates", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Coordinates { get; set; }
 
@@ -848,6 +690,9 @@ namespace Biosero.DataServices.Client
         [System.Runtime.Serialization.EnumMember(Value = @"Plasma")]
         Plasma = 3,
 
+        [System.Runtime.Serialization.EnumMember(Value = @"Unknown")]
+        Unknown = 4,
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -865,7 +710,6 @@ namespace Biosero.DataServices.Client
         public string MobileRobotIdentifier { get; set; }
 
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public MobileRobotTransportStatus Status { get; set; }
 
         [Newtonsoft.Json.JsonProperty("isFaulted", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -907,6 +751,9 @@ namespace Biosero.DataServices.Client
         [System.Runtime.Serialization.EnumMember(Value = @"AtStation")]
         AtStation = 4,
 
+        [System.Runtime.Serialization.EnumMember(Value = @"Unknown")]
+        Unknown = 5,
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -928,6 +775,9 @@ namespace Biosero.DataServices.Client
         [System.Runtime.Serialization.EnumMember(Value = @"FullRestriction")]
         FullRestriction = 4,
 
+        [System.Runtime.Serialization.EnumMember(Value = @"Unknown")]
+        Unknown = 5,
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -946,6 +796,9 @@ namespace Biosero.DataServices.Client
         [System.Runtime.Serialization.EnumMember(Value = @"Offline")]
         Offline = 3,
 
+        [System.Runtime.Serialization.EnumMember(Value = @"Unknown")]
+        Unknown = 4,
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -961,7 +814,6 @@ namespace Biosero.DataServices.Client
         public string ModuleName { get; set; }
 
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ModuleStatus Status { get; set; }
 
         [Newtonsoft.Json.JsonProperty("statusDetails", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -1021,7 +873,6 @@ namespace Biosero.DataServices.Client
         /// Gets or sets the module restriction strategy. This defines how the RestrictToModuleIds is applied to limit the modules the order can be executed on.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("moduleRestrictionStrategy", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ModuleRestrictionStrategy ModuleRestrictionStrategy { get; set; }
 
         /// <summary>
@@ -1046,7 +897,6 @@ namespace Biosero.DataServices.Client
         /// Gets or sets the status of the order.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public OrderStatus Status { get; set; }
 
         /// <summary>
@@ -1119,7 +969,6 @@ namespace Biosero.DataServices.Client
         /// Gets or sets the scheduling strategy.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("schedulingStrategy", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public SchedulingStrategy SchedulingStrategy { get; set; }
 
         /// <summary>
@@ -1127,6 +976,12 @@ namespace Biosero.DataServices.Client
         /// </summary>
         [Newtonsoft.Json.JsonProperty("log", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Log { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Order priority.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("priority", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public OrderPriority Priority { get; set; }
 
     }
 
@@ -1182,6 +1037,9 @@ namespace Biosero.DataServices.Client
 
         [System.Runtime.Serialization.EnumMember(Value = @"Consolidated")]
         Consolidated = 9,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Unknown")]
+        Unknown = 10,
 
     }
 
@@ -1276,7 +1134,6 @@ namespace Biosero.DataServices.Client
         /// Gets or sets the scheduling strategy.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("schedulingStrategy", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public SchedulingStrategy SchedulingStrategy { get; set; }
 
         /// <summary>
@@ -1300,7 +1157,6 @@ namespace Biosero.DataServices.Client
         public string OrderIdentifier { get; set; }
 
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public OrderStatus Status { get; set; }
 
         [Newtonsoft.Json.JsonProperty("templateName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -1315,14 +1171,12 @@ namespace Biosero.DataServices.Client
     public partial class PageFilter
     {
         [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public PageFilterType? Type { get; set; }
 
         [Newtonsoft.Json.JsonProperty("column", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Column { get; set; }
 
         [Newtonsoft.Json.JsonProperty("operator", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public PageFilterOperator? Operator { get; set; }
 
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -1355,6 +1209,9 @@ namespace Biosero.DataServices.Client
         [System.Runtime.Serialization.EnumMember(Value = @"GreaterThanOrEqual")]
         GreaterThanOrEqual = 6,
 
+        [System.Runtime.Serialization.EnumMember(Value = @"Unknown")]
+        Unknown = 7,
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -1379,6 +1236,9 @@ namespace Biosero.DataServices.Client
         [System.Runtime.Serialization.EnumMember(Value = @"Set")]
         Set = 5,
 
+        [System.Runtime.Serialization.EnumMember(Value = @"Unknown")]
+        Unknown = 6,
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -1390,6 +1250,9 @@ namespace Biosero.DataServices.Client
 
         [System.Runtime.Serialization.EnumMember(Value = @"Descending")]
         Descending = 1,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Unknown")]
+        Unknown = 2,
 
     }
 
@@ -1403,7 +1266,6 @@ namespace Biosero.DataServices.Client
         public string Value { get; set; }
 
         [Newtonsoft.Json.JsonProperty("valueType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ParameterValueType ValueType { get; set; }
 
         [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -1444,6 +1306,9 @@ namespace Biosero.DataServices.Client
 
         [System.Runtime.Serialization.EnumMember(Value = @"Other")]
         Other = 4,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Unknown")]
+        Unknown = 5,
 
     }
 
@@ -1564,6 +1429,9 @@ namespace Biosero.DataServices.Client
         [System.Runtime.Serialization.EnumMember(Value = @"FirstAvailableSlot")]
         FirstAvailableSlot = 1,
 
+        [System.Runtime.Serialization.EnumMember(Value = @"Unknown")]
+        Unknown = 2,
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -1679,14 +1547,12 @@ namespace Biosero.DataServices.Client
         /// Gets or sets the request status.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public TransportationRequestStatus Status { get; set; }
 
         /// <summary>
         /// Gets or sets the previous request status.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("previousStatus", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public TransportationRequestStatus? PreviousStatus { get; set; }
 
         /// <summary>
@@ -1818,6 +1684,23 @@ namespace Biosero.DataServices.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class TransportationRequestItem
+    {
+        [Newtonsoft.Json.JsonProperty("sourceStationIdentifier", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string SourceStationIdentifier { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("destinationStationIdentifier", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string DestinationStationIdentifier { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("itemIdentifier", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string ItemIdentifier { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("itemMetadata", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string ItemMetadata { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class TransportationRequestPage
     {
         [Newtonsoft.Json.JsonProperty("rows", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -1859,38 +1742,53 @@ namespace Biosero.DataServices.Client
         [System.Runtime.Serialization.EnumMember(Value = @"VehicleAtPickup")]
         VehicleAtPickup = 7,
 
+        [System.Runtime.Serialization.EnumMember(Value = @"BeforePickup")]
+        BeforePickup = 8,
+
         [System.Runtime.Serialization.EnumMember(Value = @"PickupActive")]
-        PickupActive = 8,
+        PickupActive = 9,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"AfterPickup")]
+        AfterPickup = 10,
 
         [System.Runtime.Serialization.EnumMember(Value = @"ItemLoadedOnVehicle")]
-        ItemLoadedOnVehicle = 9,
+        ItemLoadedOnVehicle = 11,
 
         [System.Runtime.Serialization.EnumMember(Value = @"VehicleMovingToDropoff")]
-        VehicleMovingToDropoff = 10,
+        VehicleMovingToDropoff = 12,
 
         [System.Runtime.Serialization.EnumMember(Value = @"VehicleAtDropoff")]
-        VehicleAtDropoff = 11,
+        VehicleAtDropoff = 13,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"BeforeDropoff")]
+        BeforeDropoff = 14,
 
         [System.Runtime.Serialization.EnumMember(Value = @"DropoffActive")]
-        DropoffActive = 12,
+        DropoffActive = 15,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"AfterDropoff")]
+        AfterDropoff = 16,
 
         [System.Runtime.Serialization.EnumMember(Value = @"DropoffComplete")]
-        DropoffComplete = 13,
+        DropoffComplete = 17,
 
         [System.Runtime.Serialization.EnumMember(Value = @"Reset")]
-        Reset = 14,
+        Reset = 18,
 
         [System.Runtime.Serialization.EnumMember(Value = @"Aborted")]
-        Aborted = 15,
+        Aborted = 19,
 
         [System.Runtime.Serialization.EnumMember(Value = @"Complete")]
-        Complete = 16,
+        Complete = 20,
 
         [System.Runtime.Serialization.EnumMember(Value = @"Canceled")]
-        Canceled = 17,
+        Canceled = 21,
 
         [System.Runtime.Serialization.EnumMember(Value = @"Error")]
-        Error = 18,
+        Error = 22,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Unknown")]
+        Unknown = 23,
 
     }
 
@@ -1925,7 +1823,6 @@ namespace Biosero.DataServices.Client
     public partial class UpdateMobileRobotTransportCommand
     {
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public MobileRobotTransportStatus Status { get; set; }
 
         [Newtonsoft.Json.JsonProperty("isFaulted", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -1964,7 +1861,6 @@ namespace Biosero.DataServices.Client
         /// Gets or sets the module restriction strategy. This defines how the RestrictToModuleIds is applied to limit the modules the order can be executed on.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("moduleRestrictionStrategy", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ModuleRestrictionStrategy ModuleRestrictionStrategy { get; set; }
 
         /// <summary>
@@ -1977,7 +1873,6 @@ namespace Biosero.DataServices.Client
         /// Gets or sets the status of the order.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public OrderStatus Status { get; set; }
 
         /// <summary>
@@ -2038,8 +1933,13 @@ namespace Biosero.DataServices.Client
         /// Gets or sets the scheduling strategy.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("schedulingStrategy", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public SchedulingStrategy SchedulingStrategy { get; set; }
+
+        /// <summary>
+        /// Gets or sets the order priority.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("priority", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public OrderPriority Priority { get; set; }
 
         /// <summary>
         /// Gets or sets the order execution log.
@@ -2053,7 +1953,6 @@ namespace Biosero.DataServices.Client
     public partial class UpdateOrderStatusCommand
     {
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public OrderStatus Status { get; set; }
 
         [Newtonsoft.Json.JsonProperty("statusDetails", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -2104,7 +2003,6 @@ namespace Biosero.DataServices.Client
         /// Enum TransportationRequestStatus.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public TransportationRequestStatus Status { get; set; }
 
         [Newtonsoft.Json.JsonProperty("statusDetails", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -2141,6 +2039,14 @@ namespace Biosero.DataServices.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UpdateWorkflowApprovalCommand
+    {
+        [Newtonsoft.Json.JsonProperty("isApproved", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsApproved { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class UpdateWorkflowGlobalVariableValueCommand
     {
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -2165,6 +2071,73 @@ namespace Biosero.DataServices.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UserAction
+    {
+        [Newtonsoft.Json.JsonProperty("userActionId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int UserActionId { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("dateUtc", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset DateUtc { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("actionType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public UserActionType ActionType { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("summary", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Summary { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("user", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string User { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UserActionPage
+    {
+        [Newtonsoft.Json.JsonProperty("rows", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<UserAction> Rows { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("totalCount", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? TotalCount { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum UserActionType
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"CreatedOrder")]
+        CreatedOrder = 0,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"AbortedOrder")]
+        AbortedOrder = 1,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"ApprovedWorkflowElement")]
+        ApprovedWorkflowElement = 2,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"RejectedWorkflowElement")]
+        RejectedWorkflowElement = 3,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"RetriedWorkflowElement")]
+        RetriedWorkflowElement = 4,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"ContinuedWorkflowElement")]
+        ContinuedWorkflowElement = 5,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"SkippedWorkflowElement")]
+        SkippedWorkflowElement = 6,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"CanceledWorkflow")]
+        CanceledWorkflow = 7,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"ResetOrder")]
+        ResetOrder = 8,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Unknown")]
+        Unknown = 9,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class VehicleBatchAssignedOnly
     {
         [Newtonsoft.Json.JsonProperty("vehicleBatchAssigned", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -2179,7 +2152,6 @@ namespace Biosero.DataServices.Client
         public double Amount { get; set; }
 
         [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public VolumeUnit Unit { get; set; }
 
     }
@@ -2205,6 +2177,9 @@ namespace Biosero.DataServices.Client
 
         [System.Runtime.Serialization.EnumMember(Value = @"fL")]
         FL = 5,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Unknown")]
+        Unknown = 6,
 
     }
 
@@ -2258,7 +2233,6 @@ namespace Biosero.DataServices.Client
         public double Value { get; set; }
 
         [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public WeightUnit Unit { get; set; }
 
     }
@@ -2285,7 +2259,6 @@ namespace Biosero.DataServices.Client
         public bool Capped { get; set; }
 
         [Newtonsoft.Json.JsonProperty("measurementType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public WeightMeasurementType MeasurementType { get; set; }
 
         [Newtonsoft.Json.JsonProperty("weightInGrams", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -2306,6 +2279,9 @@ namespace Biosero.DataServices.Client
         [System.Runtime.Serialization.EnumMember(Value = @"Tare")]
         Tare = 1,
 
+        [System.Runtime.Serialization.EnumMember(Value = @"Unknown")]
+        Unknown = 2,
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -2324,50 +2300,32 @@ namespace Biosero.DataServices.Client
         [System.Runtime.Serialization.EnumMember(Value = @"Kg")]
         Kg = 3,
 
+        [System.Runtime.Serialization.EnumMember(Value = @"Unknown")]
+        Unknown = 4,
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class Workcell
     {
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("identifier", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Identifier { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets the type identifier.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("typeIdentifier", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string TypeIdentifier { get; set; }
 
-        /// <summary>
-        /// Gets or sets the description.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Description { get; set; }
 
-        /// <summary>
-        /// Gets or sets the properties.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("properties", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<Parameter> Properties { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether [inherit properties].
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("inheritProperties", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool InheritProperties { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether this is an instance.
-        /// </summary>
         [Newtonsoft.Json.JsonProperty("isInstance", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsInstance { get; set; }
 
@@ -2429,6 +2387,89 @@ namespace Biosero.DataServices.Client
 
         [Newtonsoft.Json.JsonProperty("outputParameters", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.IDictionary<string, string> OutputParameters { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class WorkflowApproval
+    {
+        [Newtonsoft.Json.JsonProperty("workflowApprovalId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int WorkflowApprovalId { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("requestedDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset RequestedDate { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("isApproved", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsApproved { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("approvalDateUtc", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset? ApprovalDateUtc { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("userId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? UserId { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("username", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Username { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("workflowStackElementId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? WorkflowStackElementId { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class WorkflowApprovalIdOnly
+    {
+        [Newtonsoft.Json.JsonProperty("workflowApprovalId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int WorkflowApprovalId { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class WorkflowApprovalView
+    {
+        [Newtonsoft.Json.JsonProperty("workflowApprovalId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int WorkflowApprovalId { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("requestedDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset RequestedDate { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("isApproved", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? IsApproved { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("approvalDateUtc", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset? ApprovalDateUtc { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("approvedBy", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string ApprovedBy { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("workflowStackElementId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? WorkflowStackElementId { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("workflowElementGuid", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string WorkflowElementGuid { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("orderIdentifier", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string OrderIdentifier { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("createdBy", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string CreatedBy { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public OrderStatus Status { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("templateName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string TemplateName { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class WorkflowApprovalViewPage
+    {
+        [Newtonsoft.Json.JsonProperty("rows", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<WorkflowApprovalView> Rows { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("totalCount", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? TotalCount { get; set; }
 
     }
 
@@ -2544,7 +2585,6 @@ namespace Biosero.DataServices.Client
         public int WorkflowProcessId { get; set; }
 
         [Newtonsoft.Json.JsonProperty("statusCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public WorkflowThreadStatusCodes StatusCode { get; set; }
 
         [Newtonsoft.Json.JsonProperty("nextRunDateUtc", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -2603,7 +2643,6 @@ namespace Biosero.DataServices.Client
         public string TemplateName { get; set; }
 
         [Newtonsoft.Json.JsonProperty("statusCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public WorkflowThreadStatusCodes StatusCode { get; set; }
 
         [Newtonsoft.Json.JsonProperty("modifiedDateUtc", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -2657,6 +2696,9 @@ namespace Biosero.DataServices.Client
 
         [System.Runtime.Serialization.EnumMember(Value = @"Canceled")]
         Canceled = 4,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Unknown")]
+        Unknown = 5,
 
     }
 
@@ -2730,6 +2772,21 @@ namespace Biosero.DataServices.Client
         {
             Result = result;
         }
+    }
+
+    // The OrderPriority enum has been excluded from NSwag generation
+    // because it couldn't do the integer association to support order by.
+    // We will need to manually keep this up to date.
+    public enum OrderPriority
+    {
+        [System.Runtime.Serialization.EnumMember(Value = @"Elevated")]
+        Elevated = -1,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Standard")]
+        Standard = 0,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Unknown")]
+        Unknown = 1,
     }
 }
 
