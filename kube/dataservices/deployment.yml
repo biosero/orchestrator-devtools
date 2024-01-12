@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: dataservices
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            component: dataservices
+    template:
+        metadata:
+            labels:
+                component: dataservices
+        spec:
+            containers:
+                - name: dataservices
+                  image: your.container.registry.io/dataservices:latest
+                  securityContext:
+                    capabilities:
+                      drop: ["NET_RAW"]
+                  ports:
+                    - containerPort: 8080 # port which requires authentication/bearer token
+                    - containerPort: 8081 # port which does not require authentication
+                  env:
+                    - name: ASPNETCORE_ENVIRONMENT # [required] defines your Orchestrator environment & database type
+                      value: ContainerPostgreSql # possible values: ContainerPostgreSql or ContainerSqlServer
+                    - name: ORCHESTRATOR_ConnectionStrings__Orchestrator # [required] connection string for your database
+                      value: Server=your.database.server.com;Port=5432;Database=OrchestratorDB;Username=postgres;

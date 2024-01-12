@@ -1,0 +1,29 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: transportation-manager
+spec:
+    replicas: 1 # only 1 replica is supported in SimulationMode 'Full' or 'VehicleOnly', multiple replicas are supported in SimulationMode 'None'
+    selector:
+        matchLabels:
+            component: transportation-manager
+    template:
+        metadata:
+            labels:
+                component: transportation-manager
+        spec:
+            containers:
+                - name: transportation-manager
+                  image: your.container.registry.io/transportation-manager:latest
+                  securityContext:
+                    capabilities:
+                      drop: ["NET_RAW"]
+                  env:
+                    - name: ORCHESTRATOR_DataServicesClientUri # [required] the uri or base address where you host the Data Services API
+                      value: https://your.dataservices.domain.com
+                    - name: ORCHESTRATOR_SimulationMode # [optional] whether or not to run in simulation mode, defaults to None
+                      value: None # possible values: None, VehicleOnly, or Full
+                    - name: ORCHESTRATOR_TrackUri # [optional] the uri or base address where you host the Track Controller Service
+                      value: https://your.track.domain.com
+                    - name: ORCHESTRATOR_IsMobileRobotEnabled # [optional] whether or not to use mobile robots for transportation, defaults to false
+                      value: false # possible values: true or false
