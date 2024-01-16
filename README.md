@@ -101,4 +101,4 @@ If you are interested in further recommendations on how to organization your scr
 
 ## Kubernetes Example Manifest Files
 
-Under the `kube/` directory, you will find examples of Kubernetes manifest files very similar to the ones we use at Biosero to deploy Orchestrator to our cloud test environment.  You can use these as a reference when building out your own Kubernetes infrastructure.
+Under the [kube/](https://github.com/biosero/orchestrator-devtools/tree/main/kube) directory, you will find examples of Kubernetes manifest files very similar to the ones we use at Biosero to deploy Orchestrator to our cloud test environment.  You can use these as a reference when building out your own Kubernetes infrastructure.
