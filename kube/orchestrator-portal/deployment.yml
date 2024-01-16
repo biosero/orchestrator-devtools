@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: orchestrator-portal
+spec:
+    replicas: 1 # low traffic volume site but multiple replicas are supported
+    selector:
+        matchLabels:
+            component: orchestrator-portal
+    template:
+        metadata:
+            labels:
+                component: orchestrator-portal
+        spec:
+            containers:
+                - name: orchestrator-portal
+                  image: your.container.registry.io/orchestrator-portal:latest
+                  securityContext:
+                    capabilities:
+                      drop: ["NET_RAW"]
+                  ports:
+                    - containerPort: 8080
+                  env:
+                    - name: ASPNETCORE_ENVIRONMENT # [required] defines your Orchestrator environment & database type
+                      value: ContainerPostgreSql # possible values: ContainerPostgreSql or ContainerSqlServer
+                    - name: ORCHESTRATOR_ConnectionStrings__Orchestrator # [required] connection string for your Orchestrator database
+                      value: Server=your.database.server.com;Port=5432;Database=OrchestratorDB;Username=postgres;

@@ -98,3 +98,7 @@ public async Task Execute_As_Script()
 ```
 
 If you are interested in further recommendations on how to organization your scripting solution, checkout our _examples/Scripting/_ directory in the repository.
+
+## Kubernetes Example Manifest Files
+
+Under the [kube/](https://github.com/biosero/orchestrator-devtools/tree/main/kube) directory, you will find examples of Kubernetes manifest files very similar to the ones we use at Biosero to deploy Orchestrator to our cloud test environment.  You can use these as a reference when building out your own Kubernetes infrastructure.

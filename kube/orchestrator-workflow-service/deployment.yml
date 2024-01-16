@@ -1,0 +1,23 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: orchestrator-workflow-service
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            component: orchestrator-workflow-service
+    template:
+        metadata:
+            labels:
+                component: orchestrator-workflow-service
+        spec:
+            containers:
+                - name: orchestrator-workflow-service
+                  image: your.container.registry.io/orchestrator-workflow-service:latest
+                  securityContext:
+                    capabilities:
+                      drop: ["NET_RAW"]
+                  env:
+                    - name: ORCHESTRATOR_DataServicesClientUri # [required] the uri or base address where you host the Data Services API
+                      value: https://your.dataservices.domain.com
