@@ -5,7 +5,7 @@ namespace Biosero.DataServices.Client
     /// <summary>
     /// Extensions for the Data Services Client contract.
     /// </summary>
-    public static partial class DataServicesClientExtensions
+    public static class DataServicesClientExtensions
     {
         public static async Task<Identity> GetIdentityOrNullAsync(this DataServicesClient client, string identifier, CancellationToken cancellationToken = default)
         {
