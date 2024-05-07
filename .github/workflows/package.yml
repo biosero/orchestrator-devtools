@@ -67,9 +67,6 @@ jobs:
         # Install Azure CLI
         curl -sL https://aka.ms/InstallAzureCLIDeb | powershell -Command -
 
-        # Authenticate with Azure using service principal
-        az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
-
         # Sign the NuGet package using NuGet Key Vault Sign Tool
         dotnet nugetkeyvaultsigntool sign -c ${{ vars.CODE_SIGNING_CERT_NAME }} -v ${{ vars.CODE_SIGNING_VAULT_URI }} src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg
 

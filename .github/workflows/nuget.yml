@@ -63,14 +63,8 @@ jobs:
         CODE_SIGNING_VAULT_URI: ${{ vars.CODE_SIGNING_VAULT_URI }}
 
       run: |
-        # Install Azure CLI
-        curl -sL https://aka.ms/InstallAzureCLIDeb | powershell -Command -
-
-        # Authenticate with Azure using service principal
-        az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
-
-        # Sign the DLL using Azure Sign Tool
-        AzureSignTool sign -c ${{ vars.CODE_SIGNING_CERT_NAME }} -v ${{ vars.CODE_SIGNING_VAULT_URI }} src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.dll
+        $file = "$(System.DefaultWorkingDirectory)\src\$(libraryName)\bin\${{ env.BUILD_CONFIGURATION }}\$(libraryName).dll"
+        AzureSignTool sign -kvu $env:EV_VAULT_URI -kvi $env:AZURE_DEVOPS_CLIENT_ID -kvt $env:AZURE_DEVOPS_TENANT_ID -kvs $env:AZURE_DEVOPS_CLIENT_SECRET -kvc $env:EV_CERT_NAME -tr http://timestamp.digicert.com -v $file
 
 
     - name: Package
@@ -87,9 +81,6 @@ jobs:
       run: |
         # Install Azure CLI
         curl -sL https://aka.ms/InstallAzureCLIDeb | powershell -Command -
-
-        # Authenticate with Azure using service principal
-        az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
 
         # Sign the NuGet package using NuGet Key Vault Sign Tool
         dotnet nugetkeyvaultsigntool sign -c ${{ vars.CODE_SIGNING_CERT_NAME }} -v ${{ vars.CODE_SIGNING_VAULT_URI }} src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg
