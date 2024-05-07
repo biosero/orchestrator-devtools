@@ -70,7 +70,7 @@ jobs:
         CODE_SIGNING_VAULT_URI: ${{ vars.CODE_SIGNING_VAULT_URI }}
 
       run: |
-        $file = "src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}.nupkg"
+        $file = "src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/net6.0/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg"
         NuGetKeyVaultSignTool sign --file-digest sha256 --timestamp-rfc3161 http://timestamp.digicert.com --timestamp-digest sha256 --azure-key-vault-url ${{ vars.CODE_SIGNING_VAULT_URI }} --azure-key-vault-client-id  ${{ secrets.AZURE_CLIENT_ID }} --azure-key-vault-tenant-id ${{ secrets.AZURE_TENANT_ID }} --azure-key-vault-client-secret ${{ secrets.AZURE_CLIENT_SECRET }} --azure-key-vault-certificate ${{ vars.CODE_SIGNING_CERT_NAME }} "$file"
 
     - name: Publish
