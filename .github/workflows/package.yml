@@ -57,18 +57,21 @@ jobs:
 
     - name: Sign
       env:
-        CERTIFICATE_BASE64: ${{ secrets.CODE_SIGNING_CERT_BASE64 }}
-        CERTIFICATE_PASSWORD: ${{ secrets.CODE_SIGNING_PASSWORD }}
-      run: |
-        # create pfx from base64
-        $pfxPath = Join-Path -Path $env:RUNNER_TEMP -ChildPath "cert.pfx";
-        $certBytes = [System.Convert]::FromBase64String($env:CERTIFICATE_BASE64)
-        $certCollection = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2Collection
-        $certCollection.Import($certBytes, $env:CERTIFICATE_PASSWORD, [System.Security.Cryptography.X509Certificates.X509KeyStorageFlags]::Exportable)
-        $protectedCertificateBytes = $certCollection.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::Pkcs12, $env:CERTIFICATE_PASSWORD)
-        [System.IO.File]::WriteAllBytes($pfxPath, $protectedCertificateBytes)
+        AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+        AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        CODE_SIGNING_CERT_NAME: ${{ vars.CODE_SIGNING_CERT_NAME }}
+        CODE_SIGNING_VAULT_URI: ${{ vars.CODE_SIGNING_VAULT_URI }}
 
-        dotnet nuget sign src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg --certificate-path "$pfxPath" --certificate-password "$env:CERTIFICATE_PASSWORD" --timestamper http://timestamp.digicert.com
+      run: |
+        # Install Azure CLI
+        curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+        # Authenticate with Azure using service principal
+        az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+
+        # Sign the NuGet package using NuGet Key Vault Sign Tool
+        dotnet nugetkeyvaultsigntool sign -c ${{ vars.CODE_SIGNING_CERT_NAME }} -v ${{ vars.CODE_SIGNING_VAULT_URI }} src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg
 
     - name: Publish
       if: github.event_name != 'pull_request'
