@@ -1,10 +1,93 @@
-﻿namespace Biosero.DataServices.Client
+﻿#pragma warning disable 1591 // Disable "CS1591 Missing XML comment for publicly visible type or member ..."
+
+namespace Biosero.DataServices.Client
 {
     /// <summary>
     /// Extensions for the Data Services Client contract.
     /// </summary>
     public static class DataServicesClientExtensions
     {
+        public static async Task<Identity> GetIdentityOrNullAsync(this DataServicesClient client, string identifier, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await client.GetIdentityAsync(identifier, cancellationToken).ConfigureAwait(false);
+            }
+            catch (DataServicesException ex)
+                when (ex.StatusCode == 404)
+            {
+                return null;
+            }
+        }
+
+        public static async Task<OrderTemplate> GetOrderTemplateOrNullAsync(this DataServicesClient client, string name, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await client.GetOrderTemplateAsync(name, cancellationToken).ConfigureAwait(false);
+            }
+            catch (DataServicesException ex)
+                when (ex.StatusCode == 404)
+            {
+                return null;
+            }
+        }
+
+        public static async Task<WorkflowThread> GetNextWorkflowThreadOrNullAsync(this DataServicesClient client, CancellationToken cancellationToken = default)
+        {
+            var stackElements = await client.GetNextWorkflowThreadAsync(cancellationToken).ConfigureAwait(false);
+
+            return stackElements.SingleOrDefault();
+        }
+
+        public static async Task<WorkflowStackElement> PeekWorkflowStackOrNullAsync(this DataServicesClient client, int workflowThreadId, CancellationToken cancellationToken = default)
+        {
+            var stackElements = await client.PeekWorkflowStackAsync(workflowThreadId, cancellationToken).ConfigureAwait(false);
+
+            return stackElements.SingleOrDefault();
+        }
+
+        public static async Task<TransportationRequest> GetNextTransportationRequestOrNullAsync(this DataServicesClient client, CancellationToken cancellationToken = default)
+        {
+            var requests = await client.GetNextTransportationRequestAsync(cancellationToken).ConfigureAwait(false);
+
+            return requests.SingleOrDefault();
+        }
+
+        public static async Task<TransportationRequest> PeekNextTransportationRequestOrNullAsync(this DataServicesClient client, CancellationToken cancellationToken = default)
+        {
+            var requests = await client.PeekNextTransportationRequestAsync(cancellationToken).ConfigureAwait(false);
+
+            return requests.SingleOrDefault();
+        }
+
+        public static async Task<MobileRobotTransport> GetMobileRobotTransportOrNullAsync(this DataServicesClient client, string mobileRobotIdentifier, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await client.GetMobileRobotTransportAsync(mobileRobotIdentifier, cancellationToken).ConfigureAwait(false);
+            }
+            catch (DataServicesException ex)
+                when (ex.StatusCode == 404)
+            {
+                return null;
+            }
+        }
+
+        public static async Task<MobileRobotTransport> GetNextMobileRobotTransportOrNullAsync(this DataServicesClient client, CancellationToken cancellationToken = default)
+        {
+            var requests = await client.GetNextMobileRobotTransportAsync(cancellationToken).ConfigureAwait(false);
+
+            return requests.SingleOrDefault();
+        }
+
+        public static async Task<MobileRobotTransport> PeekNextMobileRobotTransportOrNullAsync(this DataServicesClient client, CancellationToken cancellationToken = default)
+        {
+            var requests = await client.PeekNextMobileRobotTransportAsync(cancellationToken).ConfigureAwait(false);
+
+            return requests.SingleOrDefault();
+        }
+
         /// <summary>
         /// Gets the value of a specific parameter.
         /// </summary>
@@ -98,3 +181,5 @@
         }
     }
 }
+
+#pragma warning restore CS1591
