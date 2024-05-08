@@ -27,6 +27,12 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Install AzureSignTool
+      run: dotnet tool install --global azuresigntool -v diag --ignore-failed-sources
+  
+    - name: Install NuGetKeyVaultSignTool
+      run: dotnet tool install --global NuGetKeyVaultSignTool -v diag --ignore-failed-sources
+
     - name: Setup NuGet authentication
       uses: actions/setup-dotnet@v2
       with:
@@ -58,6 +64,7 @@ jobs:
     - name: Sign DLL
       run: |
         $file = src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.dll
+
         AzureSignTool sign -kvu ${{ vars.CODE_SIGNING_VAULT_URI }} -kvi ${{ secrets.AZURE_CLIENT_ID }} -kvt ${{ secrets.AZURE_TENANT_ID }} -kvs ${{ secrets.AZURE_CLIENT_SECRET }} -kvc ${{ vars.CODE_SIGNING_CERT_NAME }} -tr http://timestamp.digicert.com -v "$file"
     
     - name: Test
