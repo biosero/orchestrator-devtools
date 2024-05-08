@@ -54,51 +54,19 @@ jobs:
 
     - name: Build
       run: dotnet build Biosero.Orchestrator.DevTools.sln --configuration ${{ env.BUILD_CONFIGURATION }}
-
-    - name: Sign DLL
-      run: |
-        $file = "./src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/net6.0/Biosero.Orchestrator.ScriptingTools.dll"
-
-        AzureSignTool sign -kvu ${{ vars.CODE_SIGNING_VAULT_URI }} -kvi "${{ secrets.AZURE_CLIENT_ID }}" -kvt "${{ secrets.AZURE_TENANT_ID }}" -kvs "${{ secrets.AZURE_CLIENT_SECRET }}" -kvc ${{ vars.CODE_SIGNING_CERT_NAME }} -tr http://timestamp.digicert.com -v "$file"
     
     - name: Test
       run: dotnet test Biosero.Orchestrator.DevTools.sln --no-build --configuration ${{ env.BUILD_CONFIGURATION }}
 
     - name: Sign DLL
-      env:
-        AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-        AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-        AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-        CODE_SIGNING_CERT_NAME: ${{ vars.CODE_SIGNING_CERT_NAME }}
-        CODE_SIGNING_VAULT_URI: ${{ vars.CODE_SIGNING_VAULT_URI }}
-
       run: |
-        $dllPath = "src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/net6.0/Biosero.Orchestrator.ScriptingTools.dll"
-        if (Test-Path $dllPath) {
-        Write-Host "DLL file found. Signing..."
-        AzureSignTool sign -kvu ${{ vars.CODE_SIGNING_VAULT_URI }} -kvi ${{ secrets.AZURE_CLIENT_ID }} -kvt ${{ secrets.AZURE_TENANT_ID }} -kvs ${{ secrets.AZURE_CLIENT_SECRET }} -kvc ${{ vars.CODE_SIGNING_CERT_NAME }} -tr http://timestamp.digicert.com -v "$dllPath"
-        }
-          else {
-        Write-Host "DLL file not found."
-        # Find DLL files and sign them
-        $dllFiles = Get-ChildItem -Path "src" -Recurse -Include "*.dll"
-        foreach ($dllFile in $dllFiles) {
-          Write-Host "Signing DLL: $($dllFile.FullName)"
-          AzureSignTool sign -kvu ${{ vars.CODE_SIGNING_VAULT_URI }} -kvi ${{ secrets.AZURE_CLIENT_ID }} -kvt ${{ secrets.AZURE_TENANT_ID }} -kvs ${{ secrets.AZURE_CLIENT_SECRET }} -kvc ${{ vars.CODE_SIGNING_CERT_NAME }} -tr http://timestamp.digicert.com -v "$($dllFile.FullName)"
-          }
-        }
+        $file = "./src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/net6.0/Biosero.Orchestrator.ScriptingTools.dll"
+        AzureSignTool sign -kvu ${{ vars.CODE_SIGNING_VAULT_URI }} -kvi "${{ secrets.AZURE_CLIENT_ID }}" -kvt "${{ secrets.AZURE_TENANT_ID }}" -kvs "${{ secrets.AZURE_CLIENT_SECRET }}" -kvc ${{ vars.CODE_SIGNING_CERT_NAME }} -tr http://timestamp.digicert.com -v "$file"
 
     - name: Package
       run: dotnet pack src/Biosero.Orchestrator.ScriptingTools/Biosero.Orchestrator.ScriptingTools.csproj --no-build --configuration ${{ env.BUILD_CONFIGURATION }} -p:PackageVersion=${{ steps.gitversion.outputs.fullSemVer }}
 
     - name: Sign Packages
-      env:
-        AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-        AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-        AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-        CODE_SIGNING_CERT_NAME: ${{ vars.CODE_SIGNING_CERT_NAME }}
-        CODE_SIGNING_VAULT_URI: ${{ vars.CODE_SIGNING_VAULT_URI }}
-
       run: |
         $file = "src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg"
         NuGetKeyVaultSignTool sign --file-digest sha256 --timestamp-rfc3161 http://timestamp.digicert.com --timestamp-digest sha256 --azure-key-vault-url ${{ vars.CODE_SIGNING_VAULT_URI }} --azure-key-vault-client-id  ${{ secrets.AZURE_CLIENT_ID }} --azure-key-vault-tenant-id ${{ secrets.AZURE_TENANT_ID }} --azure-key-vault-client-secret ${{ secrets.AZURE_CLIENT_SECRET }} --azure-key-vault-certificate ${{ vars.CODE_SIGNING_CERT_NAME }} "$file"
@@ -109,7 +77,6 @@ jobs:
 
     - name: Archive
       uses: actions/upload-artifact@v3
-      if: github.event_name != 'pull_request'
       with:
         name: Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg
         path: src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg
