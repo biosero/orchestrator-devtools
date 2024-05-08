@@ -53,15 +53,17 @@ jobs:
       run: dotnet tool install --global NuGetKeyVaultSignTool -v diag --ignore-failed-sources
 
     - name: Build
-      run: dotnet build Biosero.Orchestrator.DevTools.sln --configuration ${{ env.BUILD_CONFIGURATION }}
+      run: |
+        $buildOutput = dotnet build Biosero.Orchestrator.DevTools.sln --configuration ${{ env.BUILD_CONFIGURATION }} | Out-String
+        $buildPath = ($buildOutput -split '\r?\n' | Where-Object { $_ -match 'Build succeeded' } | ForEach-Object { ($_ -split ':')[1].Trim() })[0]
+        echo "Build Path: $buildPath"
 
     - name: Find and Sign DLLs
       run: |
-        $solutionDirectory = "$HOME"
-        $dllFiles = Get-ChildItem -Path $solutionDirectory -Recurse -Include "*.dll"
+        $dllFiles = Get-ChildItem -Path "$($env:BUILD_PATH)" -Recurse -Include "*.dll"
         foreach ($dllFile in $dllFiles) {
-          Write-Host "Signing DLL: $($dllFile.FullName)"
-          AzureSignTool sign -kvu ${{ vars.CODE_SIGNING_VAULT_URI }} -kvi ${{ secrets.AZURE_CLIENT_ID }} -kvs ${{ secrets.AZURE_CLIENT_SECRET }} -kvc ${{ vars.CODE_SIGNING_CERT_NAME }} -tr http://timestamp.digicert.com -v "$($dllFile.FullName)"
+        Write-Host "Signing DLL: $($dllFile.FullName)"
+          AzureSignTool sign -kvu ${{ vars.CODE_SIGNING_VAULT_URI }} -kvi ${{ secrets.AZURE_CLIENT_ID }} -kvs ${{ secrets.AZURE_CLIENT_SECRET }} -kvc ${{ vars.CODE_SIGNING_CERT_NAME }} -tr http://timestamp.digicert.com -v  "$($dllFile.FullName)"
         }
       env:
         AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
