@@ -27,6 +27,12 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Install AzureSignTool
+      run: dotnet tool install --global azuresigntool -v diag --ignore-failed-sources
+  
+    - name: Install NuGetKeyVaultSignTool
+      run: dotnet tool install --global NuGetKeyVaultSignTool -v diag --ignore-failed-sources
+
     - name: Setup NuGet authentication
       uses: actions/setup-dotnet@v2
       with:
@@ -48,27 +54,22 @@ jobs:
 
     - name: Build
       run: dotnet build Biosero.Orchestrator.DevTools.sln --configuration ${{ env.BUILD_CONFIGURATION }}
-
+    
     - name: Test
       run: dotnet test Biosero.Orchestrator.DevTools.sln --no-build --configuration ${{ env.BUILD_CONFIGURATION }}
+
+    - name: Sign DLL
+      run: |
+        $file = "./src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/net6.0/Biosero.Orchestrator.ScriptingTools.dll"
+        AzureSignTool sign -kvu ${{ vars.CODE_SIGNING_VAULT_URI }} -kvi "${{ secrets.AZURE_CLIENT_ID }}" -kvt "${{ secrets.AZURE_TENANT_ID }}" -kvs "${{ secrets.AZURE_CLIENT_SECRET }}" -kvc ${{ vars.CODE_SIGNING_CERT_NAME }} -tr http://timestamp.digicert.com -v "$file"
 
     - name: Package
       run: dotnet pack src/Biosero.Orchestrator.ScriptingTools/Biosero.Orchestrator.ScriptingTools.csproj --no-build --configuration ${{ env.BUILD_CONFIGURATION }} -p:PackageVersion=${{ steps.gitversion.outputs.fullSemVer }}
 
-    - name: Sign
-      env:
-        CERTIFICATE_BASE64: ${{ secrets.CODE_SIGNING_CERT_BASE64 }}
-        CERTIFICATE_PASSWORD: ${{ secrets.CODE_SIGNING_PASSWORD }}
+    - name: Sign Packages
       run: |
-        # create pfx from base64
-        $pfxPath = Join-Path -Path $env:RUNNER_TEMP -ChildPath "cert.pfx";
-        $certBytes = [System.Convert]::FromBase64String($env:CERTIFICATE_BASE64)
-        $certCollection = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2Collection
-        $certCollection.Import($certBytes, $env:CERTIFICATE_PASSWORD, [System.Security.Cryptography.X509Certificates.X509KeyStorageFlags]::Exportable)
-        $protectedCertificateBytes = $certCollection.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::Pkcs12, $env:CERTIFICATE_PASSWORD)
-        [System.IO.File]::WriteAllBytes($pfxPath, $protectedCertificateBytes)
-
-        dotnet nuget sign src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg --certificate-path "$pfxPath" --certificate-password "$env:CERTIFICATE_PASSWORD" --timestamper http://timestamp.digicert.com
+        $file = "src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg"
+        NuGetKeyVaultSignTool sign --file-digest sha256 --timestamp-rfc3161 http://timestamp.digicert.com --timestamp-digest sha256 --azure-key-vault-url ${{ vars.CODE_SIGNING_VAULT_URI }} --azure-key-vault-client-id  ${{ secrets.AZURE_CLIENT_ID }} --azure-key-vault-tenant-id ${{ secrets.AZURE_TENANT_ID }} --azure-key-vault-client-secret ${{ secrets.AZURE_CLIENT_SECRET }} --azure-key-vault-certificate ${{ vars.CODE_SIGNING_CERT_NAME }} "$file"
 
     - name: Publish
       if: github.event_name != 'pull_request'
@@ -76,7 +77,6 @@ jobs:
 
     - name: Archive
       uses: actions/upload-artifact@v3
-      if: github.event_name != 'pull_request'
       with:
         name: Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg
         path: src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg
