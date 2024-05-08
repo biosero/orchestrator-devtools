@@ -67,7 +67,7 @@ jobs:
         CODE_SIGNING_VAULT_URI: ${{ vars.CODE_SIGNING_VAULT_URI }}
 
       run: |
-        $dllPath = "src/Biosero.Orchestrator.ScriptingTools/bin/${env:BUILD_CONFIGURATION}/net6.0/Biosero.Orchestrator.ScriptingTools.dll"
+        $dllPath = "src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/net6.0/Biosero.Orchestrator.ScriptingTools.dll"
         if (Test-Path $dllPath) {
         Write-Host "DLL file found. Signing..."
         AzureSignTool sign -kvu ${{ vars.CODE_SIGNING_VAULT_URI }} -kvi ${{ secrets.AZURE_CLIENT_ID }} -kvt ${{ secrets.AZURE_TENANT_ID }} -kvs ${{ secrets.AZURE_CLIENT_SECRET }} -kvc ${{ vars.CODE_SIGNING_CERT_NAME }} -tr http://timestamp.digicert.com -v "$dllPath"
