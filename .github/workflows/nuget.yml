@@ -23,6 +23,12 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Install AzureSignTool
+      run: dotnet tool install --global azuresigntool -v diag --ignore-failed-sources
+  
+    - name: Install NuGetKeyVaultSignTool
+      run: dotnet tool install --global NuGetKeyVaultSignTool -v diag --ignore-failed-sources
+
     - name: Setup NuGet authentication
       uses: actions/setup-dotnet@v2
       with:
@@ -42,12 +48,6 @@ jobs:
         useConfigFile: true
         additionalArguments: -updateprojectfiles
 
-    - name: Install AzureSignTool
-      run: dotnet tool install --global azuresigntool -v diag --ignore-failed-sources
-  
-    - name: Install NuGetKeyVaultSignTool
-      run: dotnet tool install --global NuGetKeyVaultSignTool -v diag --ignore-failed-sources
-
     - name: Build
       run: dotnet build Biosero.Orchestrator.DevTools.sln --configuration ${{ env.BUILD_CONFIGURATION }}
 
@@ -56,23 +56,16 @@ jobs:
 
     - name: Sign DLL
       run: |
-        $file = src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.dll
-        AzureSignTool sign -kvu ${{ vars.CODE_SIGNING_VAULT_URI }} -kvi ${{ secrets.AZURE_CLIENT_ID }} -kvt ${{ secrets.AZURE_TENANT_ID }} -kvs ${{ secrets.AZURE_CLIENT_SECRET }} -kvc ${{ vars.CODE_SIGNING_CERT_NAME }} -tr http://timestamp.digicert.com -v "$file"
+        $file = "./src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/net6.0/Biosero.Orchestrator.ScriptingTools.dll"
+        AzureSignTool sign -kvu ${{ vars.CODE_SIGNING_VAULT_URI }} -kvi "${{ secrets.AZURE_CLIENT_ID }}" -kvt "${{ secrets.AZURE_TENANT_ID }}" -kvs "${{ secrets.AZURE_CLIENT_SECRET }}" -kvc ${{ vars.CODE_SIGNING_CERT_NAME }} -tr http://timestamp.digicert.com -v "$file"
 
     - name: Package
       run: dotnet pack src/Biosero.Orchestrator.ScriptingTools/Biosero.Orchestrator.ScriptingTools.csproj --no-build --configuration ${{ env.BUILD_CONFIGURATION }} -p:PackageVersion=${{ steps.gitversion.outputs.fullSemVer }}
 
-    - name: Sign
-      env:
-        AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-        AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-        AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-        CODE_SIGNING_CERT_NAME: ${{ vars.CODE_SIGNING_CERT_NAME }}
-        CODE_SIGNING_VAULT_URI: ${{ vars.CODE_SIGNING_VAULT_URI }}
-
+    - name: Sign Packages
       run: |
-
-        Nugetkeyvaultsigntool sign -c ${{ vars.CODE_SIGNING_CERT_NAME }} -v ${{ vars.CODE_SIGNING_VAULT_URI }} src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg         $file = src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg
+        $file = "src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg"
+        NuGetKeyVaultSignTool sign --file-digest sha256 --timestamp-rfc3161 http://timestamp.digicert.com --timestamp-digest sha256 --azure-key-vault-url ${{ vars.CODE_SIGNING_VAULT_URI }} --azure-key-vault-client-id  ${{ secrets.AZURE_CLIENT_ID }} --azure-key-vault-tenant-id ${{ secrets.AZURE_TENANT_ID }} --azure-key-vault-client-secret ${{ secrets.AZURE_CLIENT_SECRET }} --azure-key-vault-certificate ${{ vars.CODE_SIGNING_CERT_NAME }} "$file"
 
     - name: Publish
       run: dotnet nuget push src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg --api-key ${{ secrets.NUGET_ORG_API_KEY }} --source https://api.nuget.org/v3/index.json
