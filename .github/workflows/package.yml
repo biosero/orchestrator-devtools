@@ -54,7 +54,6 @@ jobs:
 
     - name: Build
       run: dotnet build Biosero.Orchestrator.DevTools.sln --configuration ${{ env.BUILD_CONFIGURATION }}
-      Write-Host "Build Output: $buildOutput"
 
     - name: Test
       run: dotnet test Biosero.Orchestrator.DevTools.sln --no-build --configuration ${{ env.BUILD_CONFIGURATION }}
