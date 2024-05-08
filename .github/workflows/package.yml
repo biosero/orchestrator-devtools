@@ -55,6 +55,21 @@ jobs:
     - name: Build
       run: dotnet build Biosero.Orchestrator.DevTools.sln --configuration ${{ env.BUILD_CONFIGURATION }}
 
+    - name: Find and Sign DLLs
+      run: |
+        $solutionDirectory = "$HOME"
+        $dllFiles = Get-ChildItem -Path $solutionDirectory -Recurse -Include "*.dll"
+        foreach ($dllFile in $dllFiles) {
+          Write-Host "Signing DLL: $($dllFile.FullName)"
+          AzureSignTool sign -kvu ${{ vars.CODE_SIGNING_VAULT_URI }} -kvi ${{ secrets.AZURE_CLIENT_ID }} -kvs ${{ secrets.AZURE_CLIENT_SECRET }} -kvc ${{ vars.CODE_SIGNING_CERT_NAME }} -tr http://timestamp.digicert.com -v "$($dllFile.FullName)"
+        }
+      env:
+        AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+        AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        CODE_SIGNING_CERT_NAME: ${{ vars.CODE_SIGNING_CERT_NAME }}
+        CODE_SIGNING_VAULT_URI: ${{ vars.CODE_SIGNING_VAULT_URI }}
+
     - name: Test
       run: dotnet test Biosero.Orchestrator.DevTools.sln --no-build --configuration ${{ env.BUILD_CONFIGURATION }}
 
