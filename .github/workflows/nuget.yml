@@ -78,9 +78,8 @@ jobs:
         CODE_SIGNING_VAULT_URI: ${{ vars.CODE_SIGNING_VAULT_URI }}
 
       run: |
-        Nugetkeyvaultsigntool sign -c ${{ vars.CODE_SIGNING_CERT_NAME }} -v ${{ vars.CODE_SIGNING_VAULT_URI }} src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg         $file = src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg
 
-        
+        Nugetkeyvaultsigntool sign -c ${{ vars.CODE_SIGNING_CERT_NAME }} -v ${{ vars.CODE_SIGNING_VAULT_URI }} src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg         $file = src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg
 
     - name: Publish
       run: dotnet nuget push src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg --api-key ${{ secrets.NUGET_ORG_API_KEY }} --source https://api.nuget.org/v3/index.json
