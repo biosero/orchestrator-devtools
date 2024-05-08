@@ -54,7 +54,8 @@ jobs:
 
     - name: Build
       run: dotnet build Biosero.Orchestrator.DevTools.sln --configuration ${{ env.BUILD_CONFIGURATION }}
-     
+      Write-Host "Build Output: $buildOutput"
+
     - name: Test
       run: dotnet test Biosero.Orchestrator.DevTools.sln --no-build --configuration ${{ env.BUILD_CONFIGURATION }}
 
@@ -67,8 +68,20 @@ jobs:
         CODE_SIGNING_VAULT_URI: ${{ vars.CODE_SIGNING_VAULT_URI }}
 
       run: |
-        $file = "src\Biosero.Orchestrator.ScriptingTools\bin\${{ env.BUILD_CONFIGURATION }}\net6.0\Biosero.Orchestrator.ScriptingTools.dll"
-        AzureSignTool sign -kvu ${{ vars.CODE_SIGNING_VAULT_URI }} -kvi ${{ secrets.AZURE_CLIENT_ID }} -kvt ${{ secrets.AZURE_TENANT_ID }} -kvs ${{ secrets.AZURE_CLIENT_SECRET }} -kvc ${{ vars.CODE_SIGNING_CERT_NAME }} -tr http://timestamp.digicert.com -v "$file"
+        $dllPath = "src/Biosero.Orchestrator.ScriptingTools/bin/${env:BUILD_CONFIGURATION}/net6.0/Biosero.Orchestrator.ScriptingTools.dll"
+        if (Test-Path $dllPath) {
+        Write-Host "DLL file found. Signing..."
+        AzureSignTool sign -kvu ${{ vars.CODE_SIGNING_VAULT_URI }} -kvi ${{ secrets.AZURE_CLIENT_ID }} -kvt ${{ secrets.AZURE_TENANT_ID }} -kvs ${{ secrets.AZURE_CLIENT_SECRET }} -kvc ${{ vars.CODE_SIGNING_CERT_NAME }} -tr http://timestamp.digicert.com -v "$dllPath"
+        }
+          else {
+        Write-Host "DLL file not found."
+        # Find DLL files and sign them
+        $dllFiles = Get-ChildItem -Path "src" -Recurse -Include "*.dll"
+        foreach ($dllFile in $dllFiles) {
+          Write-Host "Signing DLL: $($dllFile.FullName)"
+          AzureSignTool sign -kvu ${{ vars.CODE_SIGNING_VAULT_URI }} -kvi ${{ secrets.AZURE_CLIENT_ID }} -kvt ${{ secrets.AZURE_TENANT_ID }} -kvs ${{ secrets.AZURE_CLIENT_SECRET }} -kvc ${{ vars.CODE_SIGNING_CERT_NAME }} -tr http://timestamp.digicert.com -v "$($dllFile.FullName)"
+          }
+        }
 
     - name: Package
       run: dotnet pack src/Biosero.Orchestrator.ScriptingTools/Biosero.Orchestrator.ScriptingTools.csproj --no-build --configuration ${{ env.BUILD_CONFIGURATION }} -p:PackageVersion=${{ steps.gitversion.outputs.fullSemVer }}
