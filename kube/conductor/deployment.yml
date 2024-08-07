@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: conductor
+spec:
+    replicas: 1 # low traffic volume site but multiple replicas are supported
+    selector:
+        matchLabels:
+            component: conductor
+    template:
+        metadata:
+            labels:
+                component: conductor
+        spec:
+            containers:
+                - name: conductor
+                  image: your.container.registry.io/conductor:latest
+                  securityContext:
+                    capabilities:
+                      drop: ["NET_RAW"]
+                  ports:
+                    - containerPort: 8080
+                  env:
+                    - name: ORCHESTRATOR_Uris__DataServicesClient # [required] the uri or base address where you host the Data Services API
+                      value: https://your.dataservices.domain.com

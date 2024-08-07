@@ -57,6 +57,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "orchestrator-portal", "orch
 		kube\orchestrator-portal\service.yml = kube\orchestrator-portal\service.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "conductor", "conductor", "{77A9EBA6-F63E-499B-87D1-46AF1A8129B3}"
+	ProjectSection(SolutionItems) = preProject
+		kube\conductor\deployment.yml = kube\conductor\deployment.yml
+		kube\conductor\service.yml = kube\conductor\service.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,6 +90,7 @@ Global
 		{DA701BBF-835E-42EC-9271-881DCDAA6372} = {67822C7A-8096-4E8A-9D7A-DEE47E2DE943}
 		{2DFB01CA-3E1F-400B-B9D3-701B3631B304} = {67822C7A-8096-4E8A-9D7A-DEE47E2DE943}
 		{7E2C6239-EC30-4EDA-9D9A-323390B03DB4} = {67822C7A-8096-4E8A-9D7A-DEE47E2DE943}
+		{77A9EBA6-F63E-499B-87D1-46AF1A8129B3} = {67822C7A-8096-4E8A-9D7A-DEE47E2DE943}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2A78705F-AAC6-4C01-8359-506FD6E9CD13}
