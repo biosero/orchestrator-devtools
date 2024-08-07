@@ -44,7 +44,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "transportation-manager", "transportation-manager", "{DA701BBF-835E-42EC-9271-881DCDAA6372}"
 	ProjectSection(SolutionItems) = preProject
 		kube\transportation-manager\deployment.yml = kube\transportation-manager\deployment.yml
-		kube\orchestrator-workflow-service\deployment.yml = kube\orchestrator-workflow-service\deployment.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "orchestrator-workflow-service", "orchestrator-workflow-service", "{2DFB01CA-3E1F-400B-B9D3-701B3631B304}"
