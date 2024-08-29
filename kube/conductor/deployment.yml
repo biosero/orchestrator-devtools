@@ -21,5 +21,7 @@ spec:
                   ports:
                     - containerPort: 8080
                   env:
+                    - name: ASPNETCORE_ENVIRONMENT # [required] defines your Orchestrator environment
+                      value: Container # value should always be: Container
                     - name: ORCHESTRATOR_Uris__DataServicesClient # [required] the uri or base address where you host the Data Services API
                       value: https://your.dataservices.domain.com
