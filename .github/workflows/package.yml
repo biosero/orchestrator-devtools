@@ -23,7 +23,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
@@ -34,23 +34,27 @@ jobs:
       run: dotnet tool install --global NuGetKeyVaultSignTool -v diag --ignore-failed-sources
 
     - name: Setup NuGet authentication
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v4
       with:
         source-url: https://nuget.pkg.github.com/biosero/index.json
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Setup GitVersion
-      uses: gittools/actions/gitversion/setup@v0.9.15
+      uses: gittools/actions/gitversion/setup@v3.0.0
       with:
-        versionSpec: '5.x'
+        versionSpec: 6.x
+
+    - name: GitVersion update project files
+      uses: gittools/actions/gitversion/command@v3.0.0
+      with:
+        arguments: -updateprojectfiles
 
     - name: GitVersion
       id: gitversion
-      uses: gittools/actions/gitversion/execute@v0.9.15
+      uses: gittools/actions/gitversion/execute@v3.0.0
       with:
         useConfigFile: true
-        additionalArguments: -updateprojectfiles
 
     - name: Build
       run: dotnet build Biosero.Orchestrator.DevTools.sln --configuration ${{ env.BUILD_CONFIGURATION }}
@@ -76,7 +80,7 @@ jobs:
       run: dotnet nuget push src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg
 
     - name: Archive
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg
         path: src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg

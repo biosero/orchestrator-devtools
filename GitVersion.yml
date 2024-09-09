@@ -1,11 +1,21 @@
-mode: ContinuousDeployment
 assembly-file-versioning-format: '{Major}.{Minor}.{Patch}.{WeightedPreReleaseNumber ?? 0}'
+semantic-version-format: Loose
 branches:
   main:
+    mode: ContinuousDelivery
     increment: Minor
+    label: ci
     source-branches: []
     tracks-release-branches: true
     pre-release-weight: 0
+    prevent-increment:
+      when-current-commit-tagged: false
   release:
+    mode: ContinuousDelivery
     increment: Patch
-    tag: rc
+    label: rc
+    prevent-increment:
+      when-current-commit-tagged: false
+  pull-request:
+    is-release-branch: false
+    tracks-release-branches: false
