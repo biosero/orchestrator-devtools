@@ -1,4 +1,6 @@
 ﻿using Biosero.DataServices.Client;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Biosero.Orchestrator.WorkflowService
 {
@@ -22,6 +24,16 @@ namespace Biosero.Orchestrator.WorkflowService
         /// The Order Identifier for the currently running Workflow.
         /// </summary>
         public string OrderIdentifier => "Order_00000";
+
+        /// <summary>
+        /// Create a logger where the category name is derived from the specified TCategoryName type name.
+        /// Primarily should be used for creating a logger from a custom workflow script.
+        /// </summary>
+        /// <typeparam name="TCategoryName">The type whose name is used for the logger category name.</typeparam>
+        public ILogger<TCategoryName> CreateLogger<TCategoryName>()
+        {
+            return new NullLogger<TCategoryName>();
+        }
 
         /// <summary>
         /// Gets a global variables value type by its variable name.
