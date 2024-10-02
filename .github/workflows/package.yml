@@ -33,13 +33,6 @@ jobs:
     - name: Install NuGetKeyVaultSignTool
       run: dotnet tool install --global NuGetKeyVaultSignTool -v diag --ignore-failed-sources
 
-    - name: Setup NuGet authentication
-      uses: actions/setup-dotnet@v4
-      with:
-        source-url: https://nuget.pkg.github.com/biosero/index.json
-      env:
-        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     - name: Setup GitVersion
       uses: gittools/actions/gitversion/setup@v3.0.0
       with:
@@ -75,13 +68,29 @@ jobs:
         $file = "src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg"
         NuGetKeyVaultSignTool sign --file-digest sha256 --timestamp-rfc3161 http://timestamp.digicert.com --timestamp-digest sha256 --azure-key-vault-url ${{ vars.CODE_SIGNING_VAULT_URI }} --azure-key-vault-client-id  ${{ secrets.AZURE_CLIENT_ID }} --azure-key-vault-tenant-id ${{ secrets.AZURE_TENANT_ID }} --azure-key-vault-client-secret ${{ secrets.AZURE_CLIENT_SECRET }} --azure-key-vault-certificate ${{ vars.CODE_SIGNING_CERT_NAME }} "$file"
 
-    - name: Publish
-      if: github.event_name != 'pull_request'
-      run: dotnet nuget push src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg
-
     - name: Archive
       uses: actions/upload-artifact@v4
       with:
         name: Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg
         path: src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg
         retention-days: 5
+
+  publishGithub:
+    name: Publish to GitHub packages
+    if: github.ref == 'refs/heads/main' # we are only pushing ci/dev packages to GitHub packages feed
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download nupkgs
+        uses: actions/download-artifact@v4
+
+      - name: Setup NuGet authentication
+        uses: actions/setup-dotnet@v4
+        with:
+          source-url: https://nuget.pkg.github.com/biosero/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish
+        run: dotnet nuget push Biosero.Orchestrator.ScriptingTools.${{ needs.build.outputs.version }}.nupkg/Biosero.Orchestrator.ScriptingTools.${{ needs.build.outputs.version }}.nupkg

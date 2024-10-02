@@ -23,7 +23,9 @@ spec:
                       value: https://your.dataservices.domain.com
                     - name: ORCHESTRATOR_SimulationMode # [optional] whether or not to run in simulation mode, defaults to None
                       value: None # possible values: None, VehicleOnly, or Full
-                    - name: ORCHESTRATOR_TrackUri # [optional] the uri or base address where you host the Track Controller Service
+                    - name: ORCHESTRATOR_TrackType # [optional] the track type defining the track hardware/service, defaults to None
+                      value: None # possible values: None, Magnemotion, or XPlanar
+                    - name: ORCHESTRATOR_TrackUri # [optional] the uri or base address where you host the Track Service for your track type, only required when TrackType is not None
                       value: https://your.track.domain.com
                     - name: ORCHESTRATOR_IsMobileRobotEnabled # [optional] whether or not to use mobile robots for transportation, defaults to false
                       value: false # possible values: true or false

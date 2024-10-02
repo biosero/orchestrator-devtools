@@ -14,8 +14,6 @@ jobs:
   build:
     name: Build and publish
     runs-on: windows-latest
-    outputs:
-      version: ${{ steps.gitversion.outputs.fullSemVer }}
 
     steps:
     - name: Checkout
@@ -28,13 +26,6 @@ jobs:
   
     - name: Install NuGetKeyVaultSignTool
       run: dotnet tool install --global NuGetKeyVaultSignTool -v diag --ignore-failed-sources
-
-    - name: Setup NuGet authentication
-      uses: actions/setup-dotnet@v4
-      with:
-        source-url: https://nuget.pkg.github.com/biosero/index.json
-      env:
-        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Setup GitVersion
       uses: gittools/actions/gitversion/setup@v3.0.0
@@ -72,6 +63,7 @@ jobs:
         NuGetKeyVaultSignTool sign --file-digest sha256 --timestamp-rfc3161 http://timestamp.digicert.com --timestamp-digest sha256 --azure-key-vault-url ${{ vars.CODE_SIGNING_VAULT_URI }} --azure-key-vault-client-id  ${{ secrets.AZURE_CLIENT_ID }} --azure-key-vault-tenant-id ${{ secrets.AZURE_TENANT_ID }} --azure-key-vault-client-secret ${{ secrets.AZURE_CLIENT_SECRET }} --azure-key-vault-certificate ${{ vars.CODE_SIGNING_CERT_NAME }} "$file"
 
     - name: Publish
+      if: startsWith(github.ref, 'refs/tags/v') # a little protection to make sure we are building a release tag
       run: dotnet nuget push src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/Biosero.Orchestrator.ScriptingTools.${{ steps.gitversion.outputs.fullSemVer }}.nupkg --api-key ${{ secrets.NUGET_ORG_API_KEY }} --source https://api.nuget.org/v3/index.json
 
     - name: Archive

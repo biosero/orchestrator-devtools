@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
-		<Authors>Biosero Orchestrator Team</Authors>
+		<Authors>Biosero Services Team</Authors>
 		<Company>Biosero Inc</Company>
 		<Description>A library containing mock dependencies for Orchestrator Workflow scripts.</Description>
 		<Copyright>Copyright © 2024 Biosero Inc</Copyright>

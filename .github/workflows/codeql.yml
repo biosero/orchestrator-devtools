@@ -19,13 +19,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Setup NuGet authentication
-      uses: actions/setup-dotnet@v4
-      with:
-        source-url: https://nuget.pkg.github.com/biosero/index.json
-      env:
-        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
