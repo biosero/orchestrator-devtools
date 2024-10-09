@@ -10,6 +10,7 @@ namespace Biosero.Orchestrator.WorkflowService
     public class WorkflowContext
     {
         private readonly List<Parameter> _globalVariables;
+        private readonly ILoggerFactory _loggerFactory;
 
         /// <summary>
         /// Constructs a Workflow Context.
@@ -17,7 +18,19 @@ namespace Biosero.Orchestrator.WorkflowService
         /// <param name="globalVariables">The global varables with their initial values.</param>
         public WorkflowContext(params Parameter[] globalVariables)
         {
-            _globalVariables = globalVariables.ToList();
+            _globalVariables = (globalVariables ?? Array.Empty<Parameter>()).ToList();
+            _loggerFactory = new NullLoggerFactory();
+        }
+
+        /// <summary>
+        /// Constructs a Workflow Context.
+        /// </summary>
+        /// <param name="globalVariables">The global varables with their initial values.</param>
+        /// <param name="loggerFactory">The logger factory to use to record logs.</param>
+        public WorkflowContext(Parameter[] globalVariables, ILoggerFactory loggerFactory)
+        {
+            _globalVariables = (globalVariables ?? Array.Empty<Parameter>()).ToList();
+            _loggerFactory = loggerFactory ?? new NullLoggerFactory();
         }
 
         /// <summary>
@@ -32,7 +45,7 @@ namespace Biosero.Orchestrator.WorkflowService
         /// <typeparam name="TCategoryName">The type whose name is used for the logger category name.</typeparam>
         public ILogger<TCategoryName> CreateLogger<TCategoryName>()
         {
-            return new NullLogger<TCategoryName>();
+            return _loggerFactory.CreateLogger<TCategoryName>();
         }
 
         /// <summary>

@@ -29,6 +29,7 @@ namespace Biosero.Orchestrator.ScriptingTools
             scriptExecution.AddAssembly(typeof(System.Text.Json.JsonSerializer));
             scriptExecution.AddAssembly(typeof(Newtonsoft.Json.JsonSerializer));
             scriptExecution.AddAssembly(typeof(Microsoft.Extensions.Logging.ILogger));
+            scriptExecution.AddAssembly(typeof(Biosero.DataServices.Client.DataServicesClient));
 
             scriptExecution.CompileClass(script);
 
@@ -58,6 +59,7 @@ namespace Biosero.Orchestrator.ScriptingTools
             scriptExecution.AddAssembly(typeof(System.Text.Json.JsonSerializer));
             scriptExecution.AddAssembly(typeof(Newtonsoft.Json.JsonSerializer));
             scriptExecution.AddAssembly(typeof(Microsoft.Extensions.Logging.ILogger));
+            scriptExecution.AddAssembly(typeof(Biosero.DataServices.Client.DataServicesClient));
 
             dynamic compiledScript = scriptExecution.CompileClass(script);
 
