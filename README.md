@@ -37,7 +37,7 @@ namespace Acme.Orchestrator.Scripting
 }
 ```
 
-The `DataServicesClient` class is a strongly typed HTTP client for the Data Services API.  The actual class is auto generated from our Open API (Swagger) documentation.  A mock version of the class exists in the Scripting Tools package.  The mock version is an abstract class with all abstract methods that mirror the signatures of the actual version.  This allows a matching contract while easily enabling the mocking of the abstract methods with unit testing tools like [Moq](https://github.com/moq/moq).
+The `DataServicesClient` class is a strongly typed HTTP client for the Data Services API.  The class is pulled in from the `Biosero.DataServices.Client` NuGet package.  All methods are virtual which enables the mocking of the methods with unit testing tools like [Moq](https://github.com/moq/moq).
 
 ```csharp
 var client = new Mock<DataServicesClient>().Object;

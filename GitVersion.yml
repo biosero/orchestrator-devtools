@@ -9,13 +9,13 @@ branches:
     tracks-release-branches: true
     pre-release-weight: 0
     prevent-increment:
-      when-current-commit-tagged: false
+      when-current-commit-tagged: true
   release:
     mode: ContinuousDelivery
     increment: Patch
     label: rc
     prevent-increment:
-      when-current-commit-tagged: false
+      when-current-commit-tagged: true
   pull-request:
     is-release-branch: false
     tracks-release-branches: false
