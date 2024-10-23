@@ -4,7 +4,7 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Authors>Biosero Services Team</Authors>
 		<Company>Biosero Inc</Company>
-		<Description>A library containing mock dependencies for Orchestrator Workflow scripts.</Description>
+		<Description>A library containing development dependencies for Orchestrator Workflow scripts.</Description>
 		<Copyright>Copyright © 2024 Biosero Inc</Copyright>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/biosero/orchestrator-devtools</PackageProjectUrl>
@@ -16,7 +16,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Biosero.DataServices.Client" Version="1.6.1" />
+		<PackageReference Include="Biosero.DataServices.Client" Version="1.6.2" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
 			<PrivateAssets>all</PrivateAssets>
