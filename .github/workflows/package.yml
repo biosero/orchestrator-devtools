@@ -27,6 +27,11 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Setup DotNet
+      uses: actions/setup-dotnet@v4
+      with:
+        global-json-file: global.json
+
     - name: Install AzureSignTool
       run: dotnet tool install --global azuresigntool -v diag --ignore-failed-sources
   
@@ -57,7 +62,7 @@ jobs:
 
     - name: Sign DLL
       run: |
-        $file = "./src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/net8.0/Biosero.Orchestrator.ScriptingTools.dll"
+        $file = "./src/Biosero.Orchestrator.ScriptingTools/bin/${{ env.BUILD_CONFIGURATION }}/net9.0/Biosero.Orchestrator.ScriptingTools.dll"
         AzureSignTool sign -kvu ${{ vars.CODE_SIGNING_VAULT_URI }} -kvi "${{ secrets.AZURE_CLIENT_ID }}" -kvt "${{ secrets.AZURE_TENANT_ID }}" -kvs "${{ secrets.AZURE_CLIENT_SECRET }}" -kvc ${{ vars.CODE_SIGNING_CERT_NAME }} -tr http://timestamp.digicert.com -v "$file"
 
     - name: Package
@@ -85,9 +90,10 @@ jobs:
       - name: Download nupkgs
         uses: actions/download-artifact@v4
 
-      - name: Setup NuGet authentication
+      - name: Setup DotNet
         uses: actions/setup-dotnet@v4
         with:
+          global-json-file: global.json
           source-url: https://nuget.pkg.github.com/biosero/index.json
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
