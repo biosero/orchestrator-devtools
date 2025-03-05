@@ -1,10 +1,10 @@
 # Biosero Orchestrator Dev Tools
 
-![NuGet Version](https://img.shields.io/nuget/v/Biosero.Orchestrator.ScriptingTools)
-
 Biosero Orchestrator DevTools is a suite of developer tools (packages, examples, etc.) to help you implement and manage your Orchestrator environment.
 
 ## Scripting Tools
+
+![NuGet Version](https://img.shields.io/nuget/v/Biosero.Orchestrator.ScriptingTools)
 
 The Scripting Tools package is designed to improve the developer experience when writing Orchestrator Workflow scripts.  The driving motivation here is **BYOIDE** (Bring Your Own Integrated Development Environment).  All from inside Visual Studio or VS Code, you can code, debug, and test your Orchestrator Workflow scripts.  Then when you are ready, just copy them into the Biosero Designer application.  The Scripting Tools NuGet package will provide you with mock classes that can be used to simulate running a script during an Orchestrator Workflow.
 
