@@ -1,0 +1,13 @@
+{
+  // Use .NET SDK 9.0.200 if it is installed on the machine otherwise roll forward to the closest match.
+  "sdk": {
+    "version": "9.0.200",
+
+    // Uses the latest patch level for the specified major, minor, and feature band above.
+    // If not found, rolls forward to the next higher feature band within the same major/minor version and uses the latest patch level for that feature band.
+    // If not found, rolls forward to the next higher minor and feature band within the same major and uses the latest patch level for that feature band.
+    // If not found, rolls forward to the next higher major, minor, and feature band and uses the latest patch level for that feature band.
+    // If not found, fails.
+    "rollForward": "major"
+  }
+}
