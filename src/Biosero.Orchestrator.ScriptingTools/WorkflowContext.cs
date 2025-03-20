@@ -9,6 +9,8 @@ namespace Biosero.Orchestrator.WorkflowService
     /// </summary>
     public class WorkflowContext
     {
+        private static readonly HttpMessageHandler _httpMessageHandler = new HttpClientHandler();
+
         private readonly List<Parameter> _globalVariables;
         private readonly ILoggerFactory _loggerFactory;
 
@@ -37,6 +39,16 @@ namespace Biosero.Orchestrator.WorkflowService
         /// The Order Identifier for the currently running Workflow.
         /// </summary>
         public string OrderIdentifier => "Order_00000";
+
+        /// <summary>
+        /// Create a HttpClient without needing to worry about managing its HttpMessageHandler.
+        /// Feel free to dispose of the HttpClient immediately after use.
+        /// Primarily should be used for creating a HttpClient from a custom workflow script.
+        /// </summary>
+        public HttpClient CreateHttpClient()
+        {
+            return new HttpClient(_httpMessageHandler, false);
+        }
 
         /// <summary>
         /// Create a logger where the category name is derived from the specified TCategoryName type name.
