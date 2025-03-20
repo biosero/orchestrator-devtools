@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
@@ -14,7 +13,9 @@ namespace Acme.Orchestrator.Scripting
     {
         public async Task RunAsync(DataServicesClient client, WorkflowContext context, CancellationToken cancellationToken)
         {
-            using var httpClient = new HttpClient { BaseAddress = new Uri("https://timeapi.io") };
+            using var httpClient = context.CreateHttpClient();
+
+            httpClient.BaseAddress = new Uri("https://timeapi.io");
 
             var response = await httpClient.GetFromJsonAsync<Reponse>("/api/Time/current/zone?timeZone=America/Los_Angeles");
 
