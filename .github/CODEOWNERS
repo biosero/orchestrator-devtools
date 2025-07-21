@@ -8,3 +8,10 @@
 # request that modifies code that they own.
 
 *               @biosero/services-tribe
+
+# devops managed
+/.github        @biosero/devops
+/kube           @biosero/devops
+/terraform      @biosero/devops
+**/Dockerfile   @biosero/devops
+/build          @biosero/devops
