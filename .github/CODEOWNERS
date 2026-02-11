@@ -7,7 +7,7 @@
 # Code owners are automatically requested for review when someone opens a pull
 # request that modifies code that they own.
 
-*               @biosero/services-tribe
+*   @biosero/product-code-required-reviewers
 
 # devops managed
 /.github        @biosero/devops
